@@ -4,11 +4,13 @@ import liquibase.pro.packaged.J;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "evento")
-public class Evento {
+public class Evento implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +38,7 @@ public class Evento {
     @JoinColumn(name="id_situacao")
     private Situacao situacao;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_evento", joinColumns = {
             @JoinColumn(name="id_evento")
     }, inverseJoinColumns = {
