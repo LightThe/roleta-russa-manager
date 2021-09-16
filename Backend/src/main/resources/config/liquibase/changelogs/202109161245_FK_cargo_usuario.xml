@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
     <changeSet id="202109161245" author="TheoGallo">
-        <addForeignKeyConstraint baseTableName="USUARIO" baseColumnNames="CARGO" constraintName="FK_CARGO"
+        <addForeignKeyConstraint baseTableName="USUARIO" baseColumnNames="ID_CARGO" constraintName="FK_CARGO"
                                  referencedTableName="CARGO"
                                  referencedColumnNames="ID" />
     </changeSet>

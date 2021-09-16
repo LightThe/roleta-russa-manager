@@ -12,6 +12,7 @@
             <column name="MOTIVO"  type="varchar(30)" remarks="nome do motivo">
                 <constraints nullable="false"/>
             </column>
+            <column name="DESCRICAO" type="varchar(200)" remarks="descricao do motivo"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>

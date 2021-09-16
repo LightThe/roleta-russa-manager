@@ -26,7 +26,7 @@
             <column name="ST_ATIVO" type="BOOLEAN" remarks="Status de usuario ativo">
                 <constraints nullable="false" />
             </column>
-            <column name="CARGO" type="INT" remarks="cargo chave estrangeira">
+            <column name="ID_CARGO" type="INT" remarks="cargo chave estrangeira">
                 <constraints nullable="false" />
             </column>
         </createTable>
