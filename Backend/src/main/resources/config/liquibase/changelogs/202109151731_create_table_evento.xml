@@ -21,8 +21,12 @@
                 <column name="VALOR" type="decimal" remarks="valor total do lanche">
                     <constraints nullable="false"/>
                 </column>
-                <column name="ID_MOTIVO" type="int" remarks="motivo do evento"/>
-                <column name="ID_SITUACAO" type="int" remarks="situacao do evento"/>
+                <column name="ID_MOTIVO" type="int" remarks="motivo do evento">
+                    <constraints nullable="false"/>
+                </column>
+                <column name="ID_SITUACAO" type="int" remarks="situacao do evento">
+                    <constraints nullable="false"/>
+                </column>
             </createTable>
         </changeSet>
 
