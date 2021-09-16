@@ -7,10 +7,10 @@
 
         <changeSet id="202109151625" author="AdrielSkt">
             <createTable tableName="SITUACAO">
-                <column name="ID" type="int" remarks="id da situacao">
+                <column name="ID" type="int" remarks="id da situacao" autoIncrement="true">
                     <constraints primaryKey="true"/>
                 </column>
-                <column name="SITUACAO" type="20" remarks="tipo da situacao">
+                <column name="SITUACAO" type="varchar(20)" remarks="tipo da situacao">
                     <constraints nullable="false" />
                 </column>
             </createTable>

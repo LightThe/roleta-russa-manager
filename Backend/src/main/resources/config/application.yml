@@ -4,7 +4,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:postgresql://localhost:5432/postgres
-      username: rrm_user
-      password: rrm_user
-    liquibase:
-      change-log: claspat:/config/liquibase/master.xml
+    username: rrm_user
+    password: rrm_user
+  liquibase:
+    change-log: classpath:/config/liquibase/master.xml
+#    drop-first: true
