@@ -12,6 +12,6 @@ import javax.transaction.Transactional;
 public class UsuarioServico {
     private final UsuarioRepository;
     public Usuario buscar(){
-        
+
     };
 }
