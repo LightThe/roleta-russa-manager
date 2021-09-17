@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDate;
 @Getter
 @Setter
@@ -14,7 +15,7 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -42,7 +43,7 @@ public class Usuario {
     @Column(name = "st_ativo")
     Boolean status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cargo")
     private Cargo cargo;
 
