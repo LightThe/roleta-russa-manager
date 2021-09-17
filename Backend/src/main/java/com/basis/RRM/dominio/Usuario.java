@@ -19,29 +19,29 @@ public class Usuario implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Long id;
+    private Long id;
 
     @Column(name = "nome")
-    String nome;
+    private String nome;
 
     @Column(name = "cpf")
-    String cpf;
+    private String cpf;
 
     @Column(name = "dt_nascimento")
     LocalDate dataNascimento;
 
     @Column(name = "email")
-    String email;
+    private String email;
 
     @Column(name = "foto")
     @Lob
     byte[] foto;
 
     @Column(name = "telefone")
-    String telefone;
+    private String telefone;
 
     @Column(name = "st_ativo")
-    Boolean status;
+    private Boolean status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cargo")
