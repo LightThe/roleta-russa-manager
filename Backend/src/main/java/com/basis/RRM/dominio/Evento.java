@@ -1,6 +1,8 @@
 package com.basis.RRM.dominio;
 
 import liquibase.pro.packaged.J;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
@@ -10,6 +12,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "evento")
+@Getter
+@Setter
 public class Evento implements Serializable {
 
     @Id
