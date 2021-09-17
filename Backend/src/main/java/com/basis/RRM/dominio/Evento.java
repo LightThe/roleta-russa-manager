@@ -49,7 +49,7 @@ public class Evento implements Serializable {
             @JoinColumn(name = "id_usuario")
     })
     private List<Usuario> usuario;
-    //data, justificativa, valor, motivo, situacao
+
 
 
 }
