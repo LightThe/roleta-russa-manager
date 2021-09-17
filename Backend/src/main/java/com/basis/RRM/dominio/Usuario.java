@@ -35,7 +35,7 @@ public class Usuario implements Serializable {
 
     @Column(name = "foto")
     @Lob
-    byte[] foto;
+    private byte[] foto;
 
     @Column(name = "telefone")
     private String telefone;
