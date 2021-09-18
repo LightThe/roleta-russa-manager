@@ -3,10 +3,13 @@ package com.basis.RRM.service.dto;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
-public class UsuarioListagemDTO {
+public class EventoListarDTO {
     private Long id;
     private String nome;
-    private SelectDTO cargo;
+    private LocalDate data;
+    //private SelectDTO situacao;
 }

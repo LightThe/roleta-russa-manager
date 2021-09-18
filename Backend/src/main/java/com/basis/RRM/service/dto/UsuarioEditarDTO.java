@@ -1,7 +1,12 @@
 package com.basis.RRM.service.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDate;
 
+@Getter
+@Setter
 public class UsuarioEditarDTO {
     private  Long id;
     private String nome;
@@ -12,6 +17,4 @@ public class UsuarioEditarDTO {
     private String telefone;
     private Boolean status;
     private SelectDTO cargo;
-
-
 }
