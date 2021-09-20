@@ -19,7 +19,7 @@
                 <constraints nullable="false" />
             </column>
             <column name="EMAIL" type="VARCHAR(50)" remarks="email do usuario">
-                <constraints nullable="false" />
+                <constraints nullable="false" unique="true"/>
             </column>
             <column name="FOTO" type="BLOB" remarks="foto do usuario em binario" />
             <column name="TELEFONE" type="VARCHAR(15)" remarks="numero de telefone com codigo de area" />

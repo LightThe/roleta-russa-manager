@@ -23,16 +23,17 @@ public class UsuarioService {
 
 
     public List<UsuarioListagemDTO>mostrarTodosUsuarios(){
-    return usuarioListagemMapper.toDto(usuarioRepository.findAll());
+    return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
     }
 
     public UsuarioDTO mostrarUsuarioPorId(Long id){
         Usuario usuario = usuarioRepository.getById(id);
-        
+
         return usuarioMapper.toDto(usuario);
     }
 
     public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO) {
+
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
         return usuarioMapper.toDto(usuarioSalvo);
