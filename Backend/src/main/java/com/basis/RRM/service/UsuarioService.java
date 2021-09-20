@@ -39,10 +39,6 @@ public class UsuarioService {
         return usuarioMapper.toDto(usuarioSalvo);
     }
 
-    public void inativarUsuario(Long id){
-        usuarioRepository.deleteById(id);
-    }
-
     public void inativar (Long id){
         Usuario usuario = usuarioRepository.getById(id);
         usuario.setStatus(!usuario.getStatus());
