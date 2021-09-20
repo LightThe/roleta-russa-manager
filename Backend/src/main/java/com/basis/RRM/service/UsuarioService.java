@@ -36,6 +36,7 @@ public class UsuarioService {
 
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
+        usuarioRepository.existsByCpf(usuario.getCpf());
         return usuarioMapper.toDto(usuarioSalvo);
     }
 
