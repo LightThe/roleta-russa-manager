@@ -31,10 +31,10 @@ public class EventoDTO {
     @NotBlank
     private Double valor;
 
-//    @NotNull
-//    private SelectDTO motivo;
+    @NotNull
+    private SelectDTO motivo;
     @NotNull
     private SelectDTO situacao;
     @NotNull
-    private List<Usuario> usuario;
+    private List<SelectDTO> usuario;
 }
