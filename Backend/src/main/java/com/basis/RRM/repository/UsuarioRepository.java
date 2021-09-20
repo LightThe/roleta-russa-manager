@@ -4,11 +4,11 @@ import com.basis.RRM.dominio.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-public interface UsuarioRepository {
+import java.util.List;
 
-    @Repository
-    public interface UsuarioRepositorio
-        extends JpaRepository<Usuario, Long> {
+@Repository
+public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
 
-    }
+    List<Usuario> findByStatusTrue();
+    boolean existsByCpf(String cpf);
 }

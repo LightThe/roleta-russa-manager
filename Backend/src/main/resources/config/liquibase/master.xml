@@ -10,7 +10,6 @@
     <include file="config/liquibase/changelogs/202109151731_create_table_evento.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelogs/202109151627_create_table_cargo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelogs/202109151635_insert_table_cargo.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelogs/202109151635_insert_table_cargo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelogs/202109151950_create_table_usuario.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelogs/202109152014_create_table_relac_usuario-evento.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelogs/202109152025_FKs_relac_usuario-evento.xml" relativeToChangelogFile="false"/>
