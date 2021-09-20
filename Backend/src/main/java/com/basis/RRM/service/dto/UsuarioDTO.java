@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-public class UsuarioEditarDTO {
+public class UsuarioDTO {
     private  Long id;
     private String nome;
     private String cpf;
