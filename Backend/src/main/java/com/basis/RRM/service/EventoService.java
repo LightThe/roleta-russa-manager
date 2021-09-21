@@ -4,6 +4,7 @@ import com.basis.RRM.dominio.Evento;
 import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.service.dto.EventoDTO;
 import com.basis.RRM.service.dto.EventoListarDTO;
+import com.basis.RRM.service.exception.RegraNegocioException;
 import com.basis.RRM.service.mapper.EventoListarMapper;
 import com.basis.RRM.service.mapper.EventoMapper;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +27,7 @@ public class EventoService {
     }
 
     public EventoDTO mostrarEventoPorId(Long id){
-        Evento evento = eventoRepository.getById(id); //findById().orElseThrow();
+        Evento evento = eventoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Evento não existe"));
         return eventoMapper.toDto(evento);
     }
 

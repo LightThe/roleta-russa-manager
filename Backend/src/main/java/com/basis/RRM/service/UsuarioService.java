@@ -4,6 +4,7 @@ import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.repository.UsuarioRepository;
 import com.basis.RRM.service.dto.UsuarioDTO;
 import com.basis.RRM.service.dto.UsuarioListagemDTO;
+import com.basis.RRM.service.exception.RegraNegocioException;
 import com.basis.RRM.service.mapper.UsuarioListagemMapper;
 import com.basis.RRM.service.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,7 @@ public class UsuarioService {
     }
 
     public UsuarioDTO mostrarUsuarioPorId(Long id){
-        Usuario usuario = usuarioRepository.getById(id);
-
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario não existe"));
         return usuarioMapper.toDto(usuario);
     }
 
@@ -41,7 +41,7 @@ public class UsuarioService {
     }
 
     public void inativar (Long id){
-        Usuario usuario = usuarioRepository.getById(id);
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuário Não existe"));
         usuario.setStatus(!usuario.getStatus());
         Usuario usuarioSave = usuarioRepository.save(usuario);
     }
