@@ -22,17 +22,13 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
     private final UsuarioListagemMapper usuarioListagemMapper;
-    private final UsuarioFilter usuarioFilter;
-
-
-
 
     public List<UsuarioListagemDTO>mostrarTodosUsuarios(){
         return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
     }
 
     public List<UsuarioListagemDTO>mostrarTodosUsuariosFiltrado(UsuarioFilter filtro){
-        return usuarioListagemMapper.toDto(usuarioRepository.findAll(filtro.filtro()));
+        return usuarioListagemMapper.toDto(usuarioRepository.findAll(filtro.filtrar()));
 
     }
 
