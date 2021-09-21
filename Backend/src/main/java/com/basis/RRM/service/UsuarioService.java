@@ -5,6 +5,7 @@ import com.basis.RRM.repository.UsuarioRepository;
 import com.basis.RRM.service.dto.UsuarioDTO;
 import com.basis.RRM.service.dto.UsuarioListagemDTO;
 import com.basis.RRM.service.exception.RegraNegocioException;
+import com.basis.RRM.service.filter.UsuarioFilter;
 import com.basis.RRM.service.mapper.UsuarioListagemMapper;
 import com.basis.RRM.service.mapper.UsuarioMapper;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +22,18 @@ public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
     private final UsuarioListagemMapper usuarioListagemMapper;
+    private final UsuarioFilter usuarioFilter;
 
 
-    public List<UsuarioListagemDTO> mostrarTodosUsuarios() {
+
+
+    public List<UsuarioListagemDTO>mostrarTodosUsuarios(){
         return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
+    }
+
+    public List<UsuarioListagemDTO>mostrarTodosUsuariosFiltrado(UsuarioFilter filtro){
+        return usuarioListagemMapper.toDto(usuarioRepository.findAll(filtro.filtro()));
+
     }
 
     public UsuarioDTO mostrarUsuarioPorId(Long id) {
