@@ -37,10 +37,14 @@ public class UsuarioResource {
     public ResponseEntity<UsuarioDTO> atualizarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
         return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDTO));
     }
+    @PutMapping("{id}")
+    public ResponseEntity<UsuarioDTO> ativarUsuario(@PathVariable("id") Long id){
+        return ResponseEntity.ok(usuarioService.ativarusuario(id));
+    }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletarUsuario(@PathVariable("id") Long id) {
-        usuarioService.inativar(id);
+        usuarioService.inativarUsuario(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
