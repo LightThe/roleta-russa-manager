@@ -23,11 +23,11 @@ public class UsuarioService {
     private final UsuarioListagemMapper usuarioListagemMapper;
 
 
-    public List<UsuarioListagemDTO>mostrarTodosUsuarios(){
-    return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
+    public List<UsuarioListagemDTO> mostrarTodosUsuarios() {
+        return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
     }
 
-    public UsuarioDTO mostrarUsuarioPorId(Long id){
+    public UsuarioDTO mostrarUsuarioPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario não existe"));
         return usuarioMapper.toDto(usuario);
     }
@@ -37,12 +37,22 @@ public class UsuarioService {
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
         usuarioRepository.existsByCpf(usuario.getCpf());
+        //TODO: regra de negocio
         return usuarioMapper.toDto(usuarioSalvo);
     }
 
-    public void inativar (Long id){
+    public void inativarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuário Não existe"));
-        usuario.setStatus(!usuario.getStatus());
-        Usuario usuarioSave = usuarioRepository.save(usuario);
+        usuario.setStatus(false);
+        usuarioRepository.save(usuario);
     }
+
+    public UsuarioDTO ativarusuario(Long id) {
+        Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuário Não Existe"));
+        usuario.setStatus(true);
+        Usuario usuariosalvar = usuarioRepository.save(usuario);
+        return usuarioMapper.toDto(usuariosalvar);
+
+    }
+
 }
