@@ -2,8 +2,7 @@ package com.basis.RRM.service;
 
 import com.basis.RRM.dominio.Evento;
 import com.basis.RRM.repository.EventoRepository;
-import com.basis.RRM.service.dto.EventoDTO;
-import com.basis.RRM.service.dto.EventoListarDTO;
+import com.basis.RRM.service.dto.*;
 import com.basis.RRM.service.exception.RegraNegocioException;
 import com.basis.RRM.service.mapper.EventoListarMapper;
 import com.basis.RRM.service.mapper.EventoMapper;
@@ -20,6 +19,7 @@ public class EventoService {
     private final EventoRepository eventoRepository;
     private final EventoMapper eventoMapper;
     private final EventoListarMapper eventoListarMapper;
+    private final EmailService emailService;
 
     public List<EventoListarDTO> mostrarTodosEventos(){
         return eventoListarMapper.toDto(eventoRepository.findAll());
@@ -38,4 +38,10 @@ public class EventoService {
         return eventoMapper.toDto(eventoSalvo);
     }
     //TODO: Cancelar evento
+
+    public void enviaRotinaEmail(){
+        EmailDTO emailDTO = new EmailDTO();
+        //TODO: adicionar campos no email, pegar usuario pelo agendamento, data do evento...
+        emailService.enviaEmail(emailDTO);
+    }
 }
