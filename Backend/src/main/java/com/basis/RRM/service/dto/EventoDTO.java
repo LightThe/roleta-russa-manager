@@ -24,11 +24,11 @@ public class EventoDTO {
 
     @NotNull
     @Future
-    private LocalDate data;
+    private LocalDate dataEvento;
 
     private String justificativa;
 
-    @NotBlank
+    @NotNull
     private Double valor;
 
     @NotNull

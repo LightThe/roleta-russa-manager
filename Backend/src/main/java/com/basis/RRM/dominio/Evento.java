@@ -28,7 +28,7 @@ public class Evento implements Serializable {
     @Column(name = "data")
     private LocalDate dataEvento;
 
-    @Column(name = "justificativa")
+    @Column(name = "justificativa_adiantamento")
     private String justificativa;
 
     @Column(name = "valor")
@@ -44,9 +44,9 @@ public class Evento implements Serializable {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "usuario_evento", joinColumns = {
-            @JoinColumn(name="id_evento")
+            @JoinColumn(name="evento")
     }, inverseJoinColumns = {
-            @JoinColumn(name = "id_usuario")
+            @JoinColumn(name = "usuario")
     })
     private List<Usuario> usuario;
 

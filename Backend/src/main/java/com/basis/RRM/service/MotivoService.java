@@ -2,6 +2,7 @@ package com.basis.RRM.service;
 
 
 import com.basis.RRM.dominio.Motivo;
+import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.repository.MotivoRepository;
 import com.basis.RRM.service.dto.MotivoDTO;
 import com.basis.RRM.service.exception.RegraNegocioException;
@@ -18,6 +19,7 @@ import java.util.List;
 public class MotivoService {
 
    private final MotivoRepository motivoRepository;
+   private final EventoRepository eventoRepository;
    private final MotivoMapper motivoMapper;
 
 
@@ -37,6 +39,11 @@ public class MotivoService {
        return motivoMapper.toDto(motivoSalvar);
    }
    public void deletarMotivo(Long id){
+       Motivo motivo  = motivoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Motivo não existe"));
+    if(eventoRepository.findByMotivo(motivo).isPresent()){
+       throw new RegraNegocioException("Motivo não pode ser excluido por estar vinculado a um evento");
+       }
        motivoRepository.deleteById(id);
-   } //O que acontece se não existir o ID?
+
+   }
 }

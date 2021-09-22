@@ -28,16 +28,16 @@ public class MotivoResource {
         return ResponseEntity.ok(motivoService.exibirMotivoPorId(id));
     }
     @PostMapping
-    public ResponseEntity<MotivoDTO> salvarMotivo(@Valid MotivoDTO motivoDTO){
+    public ResponseEntity<MotivoDTO> salvarMotivo(@Valid @RequestBody MotivoDTO motivoDTO){
         return ResponseEntity.ok(motivoService.salvarMotivo(motivoDTO));
     }
     @PutMapping
-    public ResponseEntity<MotivoDTO> atualizarMotivo(@Valid MotivoDTO motivoDTO){
+    public ResponseEntity<MotivoDTO> atualizarMotivo(@Valid @RequestBody MotivoDTO motivoDTO){
         return ResponseEntity.ok(motivoService.salvarMotivo(motivoDTO));
     }
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletarMotivo(@PathVariable("id") Long id){
-        motivoService.exibirMotivoPorId(id);
+        motivoService.deletarMotivo(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

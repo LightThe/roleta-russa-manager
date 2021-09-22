@@ -1,6 +1,7 @@
 package com.basis.RRM.service.filter;
 
 import com.basis.RRM.dominio.Evento;
+import com.basis.RRM.dominio.Evento_;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -23,11 +24,20 @@ public class EventoFilter implements EntityFilter<Evento> {
 
     @Override
     public Specification<Evento> filtrar() {
-        return (root,cq,cb) -> cb.and(getPredicate(root,cq,cb).toArray(new Predicate[0]));
+        return (root, cq, cb) -> cb.and(getPredicates(root, cq, cb).toArray(new Predicate[0]));
     }
-    private List<Predicate> getPredicate (Root<Evento>root,CriteriaQuery<?>cq, CriteriaBuilder cb){
+
+    private List<Predicate> getPredicates (Root<Evento>root, CriteriaQuery<?>cq, CriteriaBuilder cb){
+        List<Predicate> predicates = new ArrayList<>();
         cq.orderBy(cb.desc(root.get("id")));
-        return null;
+
+        if (nome != null){
+            predicates.add(cb.like(root.get(Evento_.nome), "%"+ nome + "%"));
+        }
+        if (data != null){
+            predicates.add(cb.equal(root.get(Evento_.dataEvento), data));
+        }
+        return predicates;
     }
 
 }
