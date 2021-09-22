@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -27,11 +28,11 @@ public class MotivoResource {
         return ResponseEntity.ok(motivoService.exibirMotivoPorId(id));
     }
     @PostMapping
-    public ResponseEntity<MotivoDTO> salvarMotivo(MotivoDTO motivoDTO){
+    public ResponseEntity<MotivoDTO> salvarMotivo(@Valid MotivoDTO motivoDTO){
         return ResponseEntity.ok(motivoService.salvarMotivo(motivoDTO));
     }
     @PutMapping
-    public ResponseEntity<MotivoDTO> atualizarMotivo(MotivoDTO motivoDTO){
+    public ResponseEntity<MotivoDTO> atualizarMotivo(@Valid MotivoDTO motivoDTO){
         return ResponseEntity.ok(motivoService.salvarMotivo(motivoDTO));
     }
     @DeleteMapping("{id}")

@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,12 +27,12 @@ public class EventoResource {
     }
 
     @PostMapping
-    public ResponseEntity<EventoDTO> salvarEvento(@RequestBody EventoDTO eventoDTO){
+    public ResponseEntity<EventoDTO> salvarEvento(@Valid@RequestBody EventoDTO eventoDTO){
         return ResponseEntity.ok(eventoService.salvarEvento(eventoDTO));
     }
 
     @PutMapping
-    public ResponseEntity<EventoDTO> editarEvento(@RequestBody EventoDTO eventoDTO){
+    public ResponseEntity<EventoDTO> editarEvento(@Valid @RequestBody EventoDTO eventoDTO){
         return ResponseEntity.ok(eventoService.salvarEvento(eventoDTO));
     }
 

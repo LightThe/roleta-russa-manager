@@ -10,8 +10,6 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class UsuarioListagemDTO {
     private Long id;
-    @NotBlank(message = "Nome nao pode estar em branco")
     private String nome;
-    @NotNull
     private SelectDTO cargo;
 }

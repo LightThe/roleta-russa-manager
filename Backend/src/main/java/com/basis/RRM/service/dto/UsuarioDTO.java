@@ -22,11 +22,11 @@ public class UsuarioDTO {
     @Past
     @NotNull
     private LocalDate dataNascimento;
-    @Email
+    @Email(message = "E-mail já existe")
     private String  email;
     private byte[] foto;
     private String telefone;
-    @NotBlank
+    @NotNull
     private Boolean status;
     @NotNull
     private SelectDTO cargo;

@@ -12,7 +12,9 @@ import java.util.Optional;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>, JpaSpecificationExecutor<Usuario> {
 
     List<Usuario> findByStatusTrue();
+    List<Usuario> findByStatusFalse();
+
     boolean existsByCpf(String cpf);
-    Usuario getByCpf(String cpf);
+    boolean existsByEmail(String email);
 
 }
