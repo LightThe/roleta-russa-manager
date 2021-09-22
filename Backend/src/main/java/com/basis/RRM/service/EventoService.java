@@ -1,16 +1,18 @@
 package com.basis.RRM.service;
 
-import com.basis.RRM.dominio.Evento;
+import com.basis.RRM.config.*;
+import com.basis.RRM.dominio.*;
 import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.service.dto.*;
 import com.basis.RRM.service.exception.RegraNegocioException;
 import com.basis.RRM.service.mapper.EventoListarMapper;
 import com.basis.RRM.service.mapper.EventoMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +22,7 @@ public class EventoService {
     private final EventoMapper eventoMapper;
     private final EventoListarMapper eventoListarMapper;
     private final EmailService emailService;
+    private final ApplicationProperties applicationProperties;
 
     public List<EventoListarDTO> mostrarTodosEventos(){
         return eventoListarMapper.toDto(eventoRepository.findAll());
@@ -39,10 +42,31 @@ public class EventoService {
     }
 
     //TODO: Cancelar evento
-
+    @Scheduled(cron = "0 8 * * ?")
     public void enviaRotinaEmail(){
-        EmailDTO emailDTO = new EmailDTO();
-        //TODO: adicionar campos no email, pegar usuario pelo agendamento, data do evento...
-        emailService.enviaEmail(emailDTO);
+        Optional<Evento> optionalEvento = eventoRepository.findTodayEvento();
+
+        if(optionalEvento.isPresent()) {
+            List<String> copias = new ArrayList<>();
+            EmailDTO emailDTO = new EmailDTO();
+            Evento eventoHoje = optionalEvento.get();
+
+            emailDTO.setAssunto("Hoje tem! um patrocinador foi escolhido na roleta russa");
+            emailDTO.setCorpo("Um evento está para acontecer hoje: " +
+                    eventoHoje.getNome() +
+                    ". Esse evento será patrocinado por " +
+                    eventoHoje.getUsuario().toArray()[0] +
+                    " E mais " + (eventoHoje.getUsuario().toArray().length - 1) + " pessoas."
+            );
+            emailDTO.setDestinatario(applicationProperties.enderecoRemetente);
+
+            for (Usuario u : eventoHoje.getUsuario()) {
+                copias.add(u.getEmail());
+            }
+
+            emailDTO.setCopias(copias);
+
+            emailService.enviaEmail(emailDTO);
+        }
     }
 }
