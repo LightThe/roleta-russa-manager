@@ -2,8 +2,6 @@ package com.basis.RRM.service.filter;
 
 import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.dominio.Usuario_;
-import liquibase.license.LicenseService;
-import liquibase.pro.packaged.S;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
