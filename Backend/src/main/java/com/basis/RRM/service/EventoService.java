@@ -37,6 +37,7 @@ public class EventoService {
         Evento eventoSalvo = eventoRepository.save(evento);
         return eventoMapper.toDto(eventoSalvo);
     }
+
     //TODO: Cancelar evento
 
     public void enviaRotinaEmail(){

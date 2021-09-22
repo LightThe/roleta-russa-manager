@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -20,8 +21,12 @@ public class UsuarioResource {
     private final UsuarioService usuarioService;
 
     @GetMapping
-    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuarios() {
-        return ResponseEntity.ok(usuarioService.mostrarTodosUsuarios());
+    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosAtivos() {
+        return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosAtivos());
+    }
+    @GetMapping("/inativos")
+    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosInativos(){
+        return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosInativos());
     }
 
     @GetMapping("{id}")
@@ -30,21 +35,21 @@ public class UsuarioResource {
     }
 
     @PostMapping
-    public ResponseEntity<UsuarioDTO> salvarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UsuarioDTO> salvarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
         return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDTO));
     }
 
     @PutMapping
-    public ResponseEntity<UsuarioDTO> atualizarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
+    public ResponseEntity<UsuarioDTO> atualizarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
         return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDTO));
     }
     @PutMapping("{id}")
-    public ResponseEntity<UsuarioDTO> ativarUsuario(@PathVariable("id") Long id){
+    public ResponseEntity<UsuarioDTO> ativarUsuario(@Valid @PathVariable("id") Long id){
         return ResponseEntity.ok(usuarioService.ativarusuario(id));
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deletarUsuario(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deletarUsuario(@Valid @PathVariable("id") Long id) {
         usuarioService.inativarUsuario(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
