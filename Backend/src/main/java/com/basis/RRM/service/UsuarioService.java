@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.SQLOutput;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -23,8 +22,11 @@ public class UsuarioService {
     private final UsuarioListagemMapper usuarioListagemMapper;
 
 
-    public List<UsuarioListagemDTO> mostrarTodosUsuarios() {
+    public List<UsuarioListagemDTO> mostrarTodosUsuariosAtivos() {
         return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
+    }
+    public List<UsuarioListagemDTO> mostrarTodosUsuariosInativos(){
+        return usuarioListagemMapper.toDto(usuarioRepository.findByStatusFalse());
     }
 
     public UsuarioDTO mostrarUsuarioPorId(Long id) {
@@ -35,10 +37,16 @@ public class UsuarioService {
     public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO) {
 
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
+        if (usuarioRepository.existsByCpf(usuario.getCpf())) {
+        throw new RegraNegocioException("CPF já existe");
+        }else if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new RegraNegocioException("E-mail ja existe");
+        }else{
         Usuario usuarioSalvo = usuarioRepository.save(usuario);
-        usuarioRepository.existsByCpf(usuario.getCpf());
-        //TODO: regra de negocio
-        return usuarioMapper.toDto(usuarioSalvo);
+            return usuarioMapper.toDto(usuarioSalvo);
+        }
+
+
     }
 
     public void inativarUsuario(Long id) {
