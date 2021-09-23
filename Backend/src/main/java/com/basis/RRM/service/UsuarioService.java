@@ -25,12 +25,12 @@ public class UsuarioService {
     public List<UsuarioListagemDTO> mostrarTodosUsuariosAtivos() {
         return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
     }
-  
-    public List<UsuarioListagemDTO> mostrarTodosUsuariosInativos(){
+
+    public List<UsuarioListagemDTO> mostrarTodosUsuariosInativos() {
         return usuarioListagemMapper.toDto(usuarioRepository.findByStatusFalse());
     }
 
-    public List<UsuarioListagemDTO>mostrarTodosUsuariosFiltrado(UsuarioFilter filtro){
+    public List<UsuarioListagemDTO> mostrarTodosUsuariosFiltrado(UsuarioFilter filtro) {
         return usuarioListagemMapper.toDto(usuarioRepository.findAll(filtro.filtrar()));
 
     }
@@ -41,19 +41,25 @@ public class UsuarioService {
     }
 
     public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO) {
-
         Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
         if (usuarioRepository.existsByCpf(usuario.getCpf())) {
-        throw new RegraNegocioException("CPF já existe");
-        }else if (usuarioRepository.existsByEmail(usuario.getEmail())) {
-            throw new RegraNegocioException("E-mail ja existe");
-        }else{
-        Usuario usuarioSalvo = usuarioRepository.save(usuario);
-            return usuarioMapper.toDto(usuarioSalvo);
+            throw new RegraNegocioException("CPF já existe");
         }
-
-
+        if (usuarioRepository.existsByEmail(usuario.getEmail())) {
+            throw new RegraNegocioException("E-mail ja existe");
+        }
+        return usuarioMapper.toDto(persistir(usuario));
     }
+
+    public UsuarioDTO editarUsuario(UsuarioDTO usuarioDTO) {
+        Usuario usuario = usuarioMapper.toEntity(usuarioDTO);
+        Usuario usuarioBanco = usuarioRepository.findById(usuario.getId()).orElseThrow(() -> new RegraNegocioException("Usuario não existe"));
+        if (!usuarioBanco.getCpf().equals(usuario.getCpf())) {
+            throw new RegraNegocioException("CPF alterado, não e possivel atualizar");
+        }
+        return usuarioMapper.toDto(persistir(persistir(usuario)));
+    }
+
 
     public void inativarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuário Não existe"));
@@ -67,6 +73,10 @@ public class UsuarioService {
         Usuario usuariosalvar = usuarioRepository.save(usuario);
         return usuarioMapper.toDto(usuariosalvar);
 
+    }
+
+    private Usuario persistir(Usuario usuario) {
+        return usuarioRepository.save(usuario);
     }
 
 }

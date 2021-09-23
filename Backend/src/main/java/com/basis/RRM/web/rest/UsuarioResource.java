@@ -41,7 +41,7 @@ public class UsuarioResource {
 
     @PutMapping
     public ResponseEntity<UsuarioDTO> atualizarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDTO));
+        return ResponseEntity.ok(usuarioService.editarUsuario(usuarioDTO));
     }
     @PutMapping("{id}")
     public ResponseEntity<UsuarioDTO> ativarUsuario(@Valid @PathVariable("id") Long id){
@@ -54,7 +54,7 @@ public class UsuarioResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("filtro")
+    @GetMapping("/filtro")
     public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosFiltrado(@RequestBody UsuarioFilter usuario){
         return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosFiltrado(usuario));
     }

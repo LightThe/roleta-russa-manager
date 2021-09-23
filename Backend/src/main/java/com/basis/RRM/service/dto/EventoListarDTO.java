@@ -10,6 +10,6 @@ import java.time.LocalDate;
 public class EventoListarDTO {
     private Long id;
     private String nome;
-    private LocalDate data;
-    private SelectDTO situacao;
+    private LocalDate dataEvento;
+    //TODO Regra de exibicao do evento
 }
