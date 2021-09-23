@@ -3,6 +3,7 @@ package com.basis.RRM.service;
 import com.basis.RRM.config.*;
 import com.basis.RRM.service.dto.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.*;
 import org.springframework.mail.javamail.*;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ import javax.transaction.Transactional;
 @RequiredArgsConstructor
 @Transactional
 public class EmailService {
+
     private JavaMailSender javaMailSender;
     private final ApplicationProperties applicationProperties;
 

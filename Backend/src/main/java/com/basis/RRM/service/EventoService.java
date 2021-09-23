@@ -83,31 +83,40 @@ public class EventoService {
         eventoRepository.save(evento);
     }
 
-    @Scheduled(cron = "0 0 8 * * ?")
+    //@Scheduled(cron = "0 12 16 * * ?")
     public void enviaRotinaEmail(){
-        Optional<Evento> optionalEvento = eventoRepository.findTodayEvento(LocalDate.now());
+//        Optional<Evento> optionalEvento = eventoRepository.findTodayEvento(LocalDate.now());
 
-        if(optionalEvento.isPresent()) {
-            List<String> copias = new ArrayList<>();
-            EmailDTO emailDTO = new EmailDTO();
-            Evento eventoHoje = optionalEvento.get();
+        EmailDTO teste = new EmailDTO();
+        teste.setCorpo("Teste do email automatico que deveria funcionar");
+        teste.setDestinatario(applicationProperties.enderecoRemetente);
+        teste.setAssunto("Assunto Teste");
+        teste.setCopias(Collections.singletonList("gallotheo@gmail.com"));
+        emailService.enviaEmail(teste);
+        System.out.println("Enviou o Email de teste!");
 
-            emailDTO.setAssunto("Hoje tem! um patrocinador foi escolhido na roleta russa");
-            emailDTO.setCorpo("Um evento está para acontecer hoje: " +
-                    eventoHoje.getNome() +
-                    ". Esse evento será patrocinado por " +
-                    eventoHoje.getUsuario().toArray()[0] +
-                    " E mais " + (eventoHoje.getUsuario().toArray().length - 1) + " pessoas."
-            );
-            emailDTO.setDestinatario(applicationProperties.enderecoRemetente);
-
-            for (Usuario u : eventoHoje.getUsuario()) {
-                copias.add(u.getEmail());
-            }
-
-            emailDTO.setCopias(copias);
-
-            emailService.enviaEmail(emailDTO);
-        }
+//        if(optionalEvento.isPresent()) {
+//            List<String> copias = new ArrayList<>();
+//            EmailDTO emailDTO = new EmailDTO();
+//            Evento eventoHoje = optionalEvento.get();
+//
+//            emailDTO.setAssunto("Hoje tem! um patrocinador foi escolhido na roleta russa");
+//            emailDTO.setCorpo("Um evento está para acontecer hoje: " +
+//                    eventoHoje.getNome() +
+//                    ". Esse evento será patrocinado por " +
+//                    eventoHoje.getUsuario().toArray()[0] +
+//                    " E mais " + (eventoHoje.getUsuario().toArray().length - 1) + " pessoas."
+//            );
+//            emailDTO.setDestinatario(applicationProperties.enderecoRemetente);
+//
+//            for (Usuario u : eventoHoje.getUsuario()) {
+//                copias.add(u.getEmail());
+//            }
+//
+//            emailDTO.setCopias(copias);
+//
+//            emailService.enviaEmail(emailDTO);
+//            System.out.println("Enviou o email!\n");
+//        }
     }
 }

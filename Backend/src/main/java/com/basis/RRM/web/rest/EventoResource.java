@@ -5,8 +5,9 @@ import com.basis.RRM.service.dto.EventoDTO;
 import com.basis.RRM.service.dto.EventoListarDTO;
 import com.basis.RRM.service.filter.EventoFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+
+import org.springframework.http.*;
+
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -24,7 +25,7 @@ public class EventoResource {
     }
 
     @GetMapping("/filtro")
-    public ResponseEntity<List<EventoListarDTO>> filtrarEventos(@RequestBody EventoFilter evento) {
+    public ResponseEntity<List<EventoListarDTO>> filtrarEventos(EventoFilter evento){
         return ResponseEntity.ok(eventoService.filtrarEventos(evento));
     }
 
@@ -61,4 +62,10 @@ public class EventoResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+
+//    @PutMapping("/email")
+//    public ResponseEntity<Void> enviarEmail(){
+//        eventoService.enviaRotinaEmail();
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 }
