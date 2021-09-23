@@ -51,6 +51,7 @@ public class EventoService {
         return eventoMapper.toDto(eventoSalvo);
     }
 
+
     public EventoDTO cancelarEvento(Long id){
         Evento evento = eventoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Evento não existe"));
         Situacao situacao = new Situacao();
@@ -59,16 +60,9 @@ public class EventoService {
         return eventoMapper.toDto(eventoRepository.save(evento));
     }
 
-
-
-
-
-
-
-
-    @Scheduled(cron = "0 8 * * ?")
+    @Scheduled(cron = "0 0 8 * * ?")
     public void enviaRotinaEmail(){
-        Optional<Evento> optionalEvento = eventoRepository.findTodayEvento();
+        Optional<Evento> optionalEvento = eventoRepository.findTodayEvento(LocalDate.now());
 
         if(optionalEvento.isPresent()) {
             List<String> copias = new ArrayList<>();
