@@ -38,6 +38,7 @@ public class MotivoService {
        Motivo motivoSalvar = motivoRepository.save(motivo);
        return motivoMapper.toDto(motivoSalvar);
    }
+
    public void deletarMotivo(Long id){
        Motivo motivo  = motivoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Motivo não existe"));
     if(eventoRepository.findByMotivo(motivo).isPresent()){

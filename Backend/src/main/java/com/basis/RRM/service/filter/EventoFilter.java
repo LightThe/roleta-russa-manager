@@ -37,6 +37,15 @@ public class EventoFilter implements EntityFilter<Evento> {
         if (data != null){
             predicates.add(cb.equal(root.get(Evento_.dataEvento), data));
         }
+        if (motivo != null){
+            predicates.add(cb.like(root.join("motivo").get("motivo"),"%"+ motivo+"%"));
+        }
+        if (situacao != null){
+            predicates.add(cb.like(root.join("situacao").get("situacao"),"%"+ situacao+"%"));
+        }
+        if (usuario != null){
+            predicates.add(cb.like(root.join("usuario").get("nome"),"%"+ usuario+"%"));
+        }
         return predicates;
     }
 

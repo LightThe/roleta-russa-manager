@@ -5,13 +5,17 @@ import com.basis.RRM.dominio.*;
 import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.service.dto.*;
 import com.basis.RRM.service.exception.RegraNegocioException;
+import com.basis.RRM.service.filter.EventoFilter;
 import com.basis.RRM.service.mapper.EventoListarMapper;
 import com.basis.RRM.service.mapper.EventoMapper;
+import liquibase.pro.packaged.D;
+import liquibase.pro.packaged.L;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -25,8 +29,12 @@ public class EventoService {
     private final ApplicationProperties applicationProperties;
 
     public List<EventoListarDTO> mostrarTodosEventos(){
-        return eventoListarMapper.toDto(eventoRepository.findAll());
+        return eventoListarMapper.toDto(eventoRepository.findAllOrderDate());
+//        return eventoListarMapper.toDto(eventoRepository.findAll());
         //TODO: não trazer os cancelados
+    }
+    public List<EventoListarDTO> filtrarEventos(EventoFilter filter){
+        return eventoListarMapper.toDto(eventoRepository.findAll(filter.filtrar()));
     }
 
     public EventoDTO mostrarEventoPorId(Long id){
@@ -36,12 +44,28 @@ public class EventoService {
 
     public EventoDTO salvarEvento(EventoDTO dto){
         Evento evento = eventoMapper.toEntity(dto);
-        //TODO: regra de negocio
+        if (eventoRepository.existsByDataEvento(evento.getDataEvento())){
+            throw new RegraNegocioException("Já existe um evento marcado nessa data");
+        }
         Evento eventoSalvo = eventoRepository.save(evento);
         return eventoMapper.toDto(eventoSalvo);
     }
 
-    //TODO: Cancelar evento
+    public EventoDTO cancelarEvento(Long id){
+        Evento evento = eventoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Evento não existe"));
+        Situacao situacao = new Situacao();
+        situacao.setId(3L);
+        evento.setSituacao(situacao);
+        return eventoMapper.toDto(eventoRepository.save(evento));
+    }
+
+
+
+
+
+
+
+
     @Scheduled(cron = "0 8 * * ?")
     public void enviaRotinaEmail(){
         Optional<Evento> optionalEvento = eventoRepository.findTodayEvento();
