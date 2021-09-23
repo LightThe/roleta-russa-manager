@@ -3,6 +3,7 @@ package com.basis.RRM.repository;
 import com.basis.RRM.dominio.Evento;
 import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.service.dto.EventoDTO;
+import liquibase.pro.packaged.U;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.*;
 import com.basis.RRM.dominio.Motivo;
@@ -28,4 +29,13 @@ public interface EventoRepository extends JpaRepository<Evento, Long>, JpaSpecif
             "from Evento e " +
             "where e.dataEvento = :data")
     Optional<Evento> findTodayEvento(@Param("data") LocalDate data);
+
+
+    @Query("select e " +
+            "from Evento e " +
+            "where e.dataEvento >= :data "+
+            "ORDER BY e.dataEvento" )
+    List<Evento> findAllAfter(@Param("data") LocalDate data);
+
+    List<Evento> getAllByUsuario(Usuario usuario);
 }
