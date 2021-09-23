@@ -55,7 +55,7 @@ public class UsuarioResource {
     }
 
     @GetMapping("/filtro")
-    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosFiltrado(@RequestBody UsuarioFilter usuario){
+    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosFiltrado(UsuarioFilter usuario){
         return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosFiltrado(usuario));
     }
 

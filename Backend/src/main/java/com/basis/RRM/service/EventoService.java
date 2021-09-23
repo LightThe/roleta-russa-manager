@@ -51,13 +51,36 @@ public class EventoService {
         return eventoMapper.toDto(eventoSalvo);
     }
 
+    public void trocarEventosDeData(Long id1,Long id2){
+        Evento evento1 = eventoRepository.findById(id1).orElseThrow(()-> new RegraNegocioException("Evento primario não existe"));
+        Evento evento2 = eventoRepository.findById(id2).orElseThrow(()-> new RegraNegocioException("Evento secundario não existe"));
+        LocalDate date1 = evento1.getDataEvento();
+        LocalDate date2 = evento2.getDataEvento();
+        evento1.setDataEvento(date2);
+        evento2.setDataEvento(date1);
+        eventoRepository.save(evento1);
+        eventoRepository.save(evento2);
+    }
 
-    public EventoDTO cancelarEvento(Long id){
+    public void adiarEvento(Long id){
+        Evento eventoAdiado = eventoRepository.findById(id).orElseThrow(()-> new RegraNegocioException("Evento não existe"));
+        LocalDate dataInicial = eventoAdiado.getDataEvento();
+        List<Evento> eventos = eventoRepository.findAllAfter(dataInicial);
+
+        for (Evento e: eventos){
+            e.setDataEvento(e.getDataEvento().plusDays(7));
+            eventoRepository.save(e);
+        }
+
+    }
+
+
+    public void cancelarEvento(Long id){
         Evento evento = eventoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Evento não existe"));
         Situacao situacao = new Situacao();
         situacao.setId(3L);
         evento.setSituacao(situacao);
-        return eventoMapper.toDto(eventoRepository.save(evento));
+        eventoRepository.save(evento);
     }
 
     @Scheduled(cron = "0 0 8 * * ?")

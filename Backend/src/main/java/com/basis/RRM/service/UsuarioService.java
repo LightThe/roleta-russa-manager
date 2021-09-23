@@ -1,6 +1,8 @@
 package com.basis.RRM.service;
 
+import com.basis.RRM.dominio.Evento;
 import com.basis.RRM.dominio.Usuario;
+import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.repository.UsuarioRepository;
 import com.basis.RRM.service.dto.UsuarioDTO;
 import com.basis.RRM.service.dto.UsuarioListagemDTO;
@@ -19,8 +21,10 @@ import java.util.List;
 @Transactional
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
+    private final EventoRepository eventoRepository;
     private final UsuarioMapper usuarioMapper;
     private final UsuarioListagemMapper usuarioListagemMapper;
+
 
     public List<UsuarioListagemDTO> mostrarTodosUsuariosAtivos() {
         return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
@@ -63,6 +67,17 @@ public class UsuarioService {
 
     public void inativarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuário Não existe"));
+        List<Evento> eventos = eventoRepository.getAllByUsuario(usuario);
+        for (Evento e: eventos){
+            if (e.getUsuario().toArray().length == 1){
+                eventoRepository.delete(e);
+            }else{
+                List<Usuario> usuarios = e.getUsuario();
+                usuarios.remove(usuario);
+                e.setUsuario(usuarios);
+                eventoRepository.save(e);
+            }
+        }
         usuario.setStatus(false);
         usuarioRepository.save(usuario);
     }
