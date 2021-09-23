@@ -12,6 +12,7 @@ import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -42,9 +43,9 @@ public class EventoService {
     }
 
     //TODO: Cancelar evento
-    @Scheduled(cron = "0 8 * * ?")
+    @Scheduled(cron = "0 0 8 * * ?")
     public void enviaRotinaEmail(){
-        Optional<Evento> optionalEvento = eventoRepository.findTodayEvento();
+        Optional<Evento> optionalEvento = eventoRepository.findTodayEvento(LocalDate.now());
 
         if(optionalEvento.isPresent()) {
             List<String> copias = new ArrayList<>();
