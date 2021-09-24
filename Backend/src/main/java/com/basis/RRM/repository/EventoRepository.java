@@ -2,21 +2,20 @@ package com.basis.RRM.repository;
 
 import com.basis.RRM.dominio.Evento;
 import com.basis.RRM.dominio.Usuario;
-import com.basis.RRM.service.dto.EventoDTO;
-import liquibase.pro.packaged.U;
-import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.query.*;
 import com.basis.RRM.dominio.Motivo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.*;
-import java.util.*;
 
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface EventoRepository extends JpaRepository<Evento, Long>, JpaSpecificationExecutor<Evento>{
+public interface EventoRepository extends JpaRepository<Evento, Long>, JpaSpecificationExecutor<Evento> {
 
 
     Optional<Evento> findByMotivo(Motivo motivo);

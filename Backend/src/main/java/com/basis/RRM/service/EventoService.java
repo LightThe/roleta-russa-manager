@@ -1,22 +1,23 @@
 package com.basis.RRM.service;
 
-import com.basis.RRM.config.*;
-import com.basis.RRM.dominio.*;
+import com.basis.RRM.config.ApplicationProperties;
+import com.basis.RRM.dominio.Evento;
+import com.basis.RRM.dominio.Situacao;
 import com.basis.RRM.repository.EventoRepository;
-import com.basis.RRM.service.dto.*;
+import com.basis.RRM.service.dto.EmailDTO;
+import com.basis.RRM.service.dto.EventoDTO;
+import com.basis.RRM.service.dto.EventoListarDTO;
 import com.basis.RRM.service.exception.RegraNegocioException;
 import com.basis.RRM.service.filter.EventoFilter;
 import com.basis.RRM.service.mapper.EventoListarMapper;
 import com.basis.RRM.service.mapper.EventoMapper;
-import liquibase.pro.packaged.D;
-import liquibase.pro.packaged.L;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.*;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -30,13 +31,10 @@ public class EventoService {
 
     public List<EventoListarDTO> mostrarTodosEventos(){
         return eventoListarMapper.toDto(eventoRepository.findAllOrderDate());
-//        return eventoListarMapper.toDto(eventoRepository.findAll());
-        //TODO: não trazer os cancelados
     }
     public List<EventoListarDTO> filtrarEventos(EventoFilter filter){
         return eventoListarMapper.toDto(eventoRepository.findAll(filter.filtrar()));
     }
-
     public EventoDTO mostrarEventoPorId(Long id){
         Evento evento = eventoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Evento não existe"));
         return eventoMapper.toDto(evento);

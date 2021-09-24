@@ -15,10 +15,7 @@
                 <column name="DATA" type="date" remarks="data do evento criado">
                     <constraints nullable="false"/>
                 </column>
-                <column name="JUSTIFICATIVA_ADIANTAMENTO" type="varchar(200)" remarks="Justificativa de adiantamento do evento">
-                    <constraints nullable="false"/>
-<!--                    TODO Justificativa pode ser nula nao ??-->
-                </column>
+                <column name="JUSTIFICATIVA_ADIANTAMENTO" type="varchar(200)" remarks="Justificativa de adiantamento do evento" />
                 <column name="VALOR" type="decimal" remarks="valor total do lanche">
                     <constraints nullable="false"/>
                 </column>
