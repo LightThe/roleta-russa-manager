@@ -1,18 +1,25 @@
 package com.basis.RRM.service;
 
-import com.basis.RRM.config.*;
-import com.basis.RRM.service.dto.*;
-import lombok.*;
-import org.springframework.mail.javamail.*;
+import com.basis.RRM.config.ApplicationProperties;
+import com.basis.RRM.service.dto.EmailDTO;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.SneakyThrows;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import javax.mail.internet.*;
+import javax.mail.internet.MimeMessage;
 import javax.transaction.Transactional;
 
+@Getter
+@Setter
 @Service
 @RequiredArgsConstructor
 @Transactional
 public class EmailService {
+
     private JavaMailSender javaMailSender;
     private final ApplicationProperties applicationProperties;
 
