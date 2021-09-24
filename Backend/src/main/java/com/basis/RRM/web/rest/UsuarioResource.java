@@ -27,13 +27,9 @@ public class UsuarioResource {
 
     private final UsuarioService usuarioService;
 
-    @GetMapping
-    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosAtivos() {
-        return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosAtivos());
-    }
-    @GetMapping("/inativos")
-    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosInativos(){
-        return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosInativos());
+    @GetMapping("/filtro")
+    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosFiltrado(UsuarioFilter usuario){
+        return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosFiltrado(usuario));
     }
 
     @GetMapping("{id}")
@@ -61,10 +57,7 @@ public class UsuarioResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @GetMapping("/filtro")
-    public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosFiltrado(UsuarioFilter usuario){
-        return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosFiltrado(usuario));
-    }
+
 
 }
 

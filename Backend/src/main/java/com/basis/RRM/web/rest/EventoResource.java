@@ -25,10 +25,6 @@ import java.util.List;
 public class EventoResource {
     private final EventoService eventoService;
 
-    @GetMapping
-    public ResponseEntity<List<EventoListarDTO>> exibirEventos() {
-        return ResponseEntity.ok(eventoService.mostrarTodosEventos());
-    }
 
     @GetMapping("/filtro")
     public ResponseEntity<List<EventoListarDTO>> filtrarEventos(EventoFilter evento){
@@ -55,9 +51,9 @@ public class EventoResource {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/trocar/{id1}/{id2}")
-    public ResponseEntity<Void> trocarDataDeEventos(@PathVariable("id1")Long id1,@PathVariable("id2") Long id2){
-        eventoService.trocarEventosDeData(id1,id2);
+    @PutMapping("/trocar/{idPri}/{idSec}")
+    public ResponseEntity<Void> trocarDataDeEventos(@PathVariable("idPri")Long idPri,@PathVariable("idSec") Long idSec){
+        eventoService.trocarEventosDeData(idPri,idSec);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

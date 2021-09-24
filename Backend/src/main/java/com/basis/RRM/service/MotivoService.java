@@ -19,7 +19,7 @@ import java.util.List;
 public class MotivoService {
 
    private final MotivoRepository motivoRepository;
-   private final EventoRepository eventoRepository;
+   private final EventoService eventoService;
    private final MotivoMapper motivoMapper;
 
 
@@ -41,7 +41,7 @@ public class MotivoService {
 
    public void deletarMotivo(Long id){
        Motivo motivo  = motivoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Motivo não existe"));
-    if(eventoRepository.findByMotivo(motivo).isPresent()){
+    if(eventoService.buscarMotivosEmEventos(motivo).isPresent()){
        throw new RegraNegocioException("Motivo não pode ser excluido por estar vinculado a um evento");
        }
        motivoRepository.deleteById(id);

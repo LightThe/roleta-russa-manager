@@ -25,15 +25,7 @@ public class UsuarioService {
     private final UsuarioMapper usuarioMapper;
     private final UsuarioListagemMapper usuarioListagemMapper;
 
-
-    public List<UsuarioListagemDTO> mostrarTodosUsuariosAtivos() {
-        return usuarioListagemMapper.toDto(usuarioRepository.findByStatusTrue());
-    }
-
-    public List<UsuarioListagemDTO> mostrarTodosUsuariosInativos() {
-        return usuarioListagemMapper.toDto(usuarioRepository.findByStatusFalse());
-    }
-
+    
     public List<UsuarioListagemDTO> mostrarTodosUsuariosFiltrado(UsuarioFilter filtro) {
         return usuarioListagemMapper.toDto(usuarioRepository.findAll(filtro.filtrar()));
 
