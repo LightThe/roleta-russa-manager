@@ -69,9 +69,9 @@ public class EventoResource {
     }
 
 
-//    @PutMapping("/email")
-//    public ResponseEntity<Void> enviarEmail(){
-//        eventoService.enviaRotinaEmail();
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+    @PutMapping("/email")
+    public ResponseEntity<Void> enviarEmail(){
+        eventoService.enviaRotinaEmail();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
