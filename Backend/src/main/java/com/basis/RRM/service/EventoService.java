@@ -52,28 +52,40 @@ public class EventoService {
         Evento eventoSalvo = eventoRepository.save(evento);
         return eventoMapper.toDto(eventoSalvo);
     }
+    public EventoDTO editarEvento (EventoDTO eventoDTO){
+        Evento evento = eventoMapper.toEntity(eventoDTO);
+        Evento eventoComp = eventoRepository.findById(evento.getId()).orElseThrow(()-> new RegraNegocioException("evento não existe"));
+        if (evento.getDataEvento().equals(eventoComp.getDataEvento())){
+            Evento eventoSalvo = eventoRepository.save(evento);
 
-    public void trocarEventosDeData(Long id1,Long id2){
-        Evento evento1 = eventoRepository.findById(id1).orElseThrow(()-> new RegraNegocioException("Evento primario não existe"));
-        Evento evento2 = eventoRepository.findById(id2).orElseThrow(()-> new RegraNegocioException("Evento secundario não existe"));
-        LocalDate date1 = evento1.getDataEvento();
-        LocalDate date2 = evento2.getDataEvento();
-        evento1.setDataEvento(date2);
-        evento2.setDataEvento(date1);
-        eventoRepository.save(evento1);
-        eventoRepository.save(evento2);
+        }
+        else if (eventoRepository.existsByDataEvento(evento.getDataEvento())){
+            throw new RegraNegocioException("Já existe um evento marcado nessa data");
+        }
+    return eventoMapper.toDto(eventoRepository.getById(evento.getId()));
+    }
+
+    public void trocarEventosDeData(Long idPrimario,Long idSecundario){
+        Evento eventoPrimario = eventoRepository.findById(idPrimario).orElseThrow(()-> new RegraNegocioException("Evento primario não existe"));
+        Evento eventoSecundario = eventoRepository.findById(idSecundario).orElseThrow(()-> new RegraNegocioException("Evento secundario não existe"));
+        LocalDate dateEventoPrimario = eventoPrimario.getDataEvento();
+        LocalDate dateEventoSecundario = eventoSecundario.getDataEvento();
+        eventoPrimario.setDataEvento(dateEventoSecundario);
+        eventoSecundario.setDataEvento(dateEventoPrimario);
+        eventoRepository.save(eventoPrimario);
+        eventoRepository.save(eventoSecundario);
     }
 
     public void adiarEvento(Long id){
         Evento eventoAdiado = eventoRepository.findById(id).orElseThrow(()-> new RegraNegocioException("Evento não existe"));
         LocalDate dataInicial = eventoAdiado.getDataEvento();
         List<Evento> eventos = eventoRepository.findAllAfter(dataInicial);
-
+        List<Evento> eventosSave = new ArrayList<>();
         for (Evento e: eventos){
             e.setDataEvento(e.getDataEvento().plusDays(7));
-            eventoRepository.save(e);
+            eventosSave.add(e);
         }
-
+        eventoRepository.saveAll(eventosSave);
     }
 
 
@@ -84,6 +96,21 @@ public class EventoService {
         evento.setSituacao(situacao);
         eventoRepository.save(evento);
     }
+    public void InativacaoDeUsuario(Usuario usuario){
+
+        List<Evento> eventos = eventoRepository.getAllByUsuario(usuario);
+        for (Evento e: eventos){
+            if (e.getUsuario().toArray().length == 1){
+                eventoRepository.delete(e);
+            }else{
+                List<Usuario> usuarios = e.getUsuario();
+                usuarios.remove(usuario);
+                e.setUsuario(usuarios);
+                eventoRepository.save(e);
+            }
+        }
+        }
+
 
     @Scheduled(cron = "0 0 8 * * ?")
     public void enviaRotinaEmail(){

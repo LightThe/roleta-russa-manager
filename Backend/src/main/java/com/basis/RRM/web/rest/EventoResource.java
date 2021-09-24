@@ -47,7 +47,7 @@ public class EventoResource {
 
     @PutMapping
     public ResponseEntity<EventoDTO> editarEvento(@Valid @RequestBody EventoDTO eventoDTO) {
-        return ResponseEntity.ok(eventoService.salvarEvento(eventoDTO));
+        return ResponseEntity.ok(eventoService.editarEvento(eventoDTO));
     }
     @PutMapping("/adiar/{id}")
     public ResponseEntity<Void> adiarEvento(@PathVariable("id") Long id){
