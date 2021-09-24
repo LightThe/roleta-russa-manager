@@ -1,12 +1,8 @@
 package com.basis.RRM.service.dto;
 
-import com.basis.RRM.dominio.Motivo;
-import com.basis.RRM.dominio.Situacao;
-import com.basis.RRM.dominio.Usuario;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
