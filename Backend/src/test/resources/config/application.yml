@@ -1,14 +1,19 @@
 spring:
   application:
     name: rrm
+  profiles:
+    active: test
+  h2:
+    console:
+      enabled: true
+      path: /h2
   datasource:
-    type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:postgresql://localhost:5432/postgres
-    username: rrm_user
-    password: rrm_user
+    url: jdbc:h2:mem:rrm
+    username: sa
+    password:
+    driverClassName: org.h2.Driver
   liquibase:
     change-log: classpath:/config/liquibase/master.xml
-#    drop-first: true
   mail:
     host: smtp.gmail.com
     port: 587
