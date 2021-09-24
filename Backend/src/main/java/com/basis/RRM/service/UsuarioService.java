@@ -21,7 +21,7 @@ import java.util.List;
 @Transactional
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
-    private final EventoRepository eventoRepository;
+    private final EventoService eventoService;
     private final UsuarioMapper usuarioMapper;
     private final UsuarioListagemMapper usuarioListagemMapper;
 
@@ -67,17 +67,7 @@ public class UsuarioService {
 
     public void inativarUsuario(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuário Não existe"));
-        List<Evento> eventos = eventoRepository.getAllByUsuario(usuario);
-        for (Evento e: eventos){
-            if (e.getUsuario().toArray().length == 1){
-                eventoRepository.delete(e);
-            }else{
-                List<Usuario> usuarios = e.getUsuario();
-                usuarios.remove(usuario);
-                e.setUsuario(usuarios);
-                eventoRepository.save(e);
-            }
-        }
+        eventoService.InativacaoDeUsuario(usuario);
         usuario.setStatus(false);
         usuarioRepository.save(usuario);
     }
