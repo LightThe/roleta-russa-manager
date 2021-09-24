@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 @Transactional
 public class EmailService {
 
-    private final JavaMailSender javaMailSender; //ainda não funciona
+    private JavaMailSender javaMailSender;
     private final ApplicationProperties applicationProperties;
 
     @SneakyThrows

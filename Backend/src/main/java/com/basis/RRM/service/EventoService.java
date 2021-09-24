@@ -31,13 +31,10 @@ public class EventoService {
 
     public List<EventoListarDTO> mostrarTodosEventos(){
         return eventoListarMapper.toDto(eventoRepository.findAllOrderDate());
-//        return eventoListarMapper.toDto(eventoRepository.findAll());
-        //TODO: não trazer os cancelados
     }
     public List<EventoListarDTO> filtrarEventos(EventoFilter filter){
         return eventoListarMapper.toDto(eventoRepository.findAll(filter.filtrar()));
     }
-
     public EventoDTO mostrarEventoPorId(Long id){
         Evento evento = eventoRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Evento não existe"));
         return eventoMapper.toDto(evento);
