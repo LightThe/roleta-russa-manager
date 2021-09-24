@@ -24,7 +24,7 @@ public class UsuarioDTO {
     private LocalDate dataNascimento;
     @Email(message = "E-mail já existe")
     private String  email;
-    private byte[] foto;
+
     private String telefone;
     @NotNull
     private Boolean status;

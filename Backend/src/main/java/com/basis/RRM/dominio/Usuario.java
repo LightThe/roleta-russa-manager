@@ -42,10 +42,6 @@ public class Usuario implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "foto")
-    @Lob
-    private byte[] foto;
-
     @Column(name = "telefone")
     private String telefone;
 
