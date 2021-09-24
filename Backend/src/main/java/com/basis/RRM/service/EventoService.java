@@ -2,6 +2,7 @@ package com.basis.RRM.service;
 
 import com.basis.RRM.config.ApplicationProperties;
 import com.basis.RRM.dominio.Evento;
+import com.basis.RRM.dominio.Motivo;
 import com.basis.RRM.dominio.Situacao;
 import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.repository.EventoRepository;
@@ -33,9 +34,6 @@ public class EventoService {
     private final EmailService emailService;
     private final ApplicationProperties applicationProperties;
 
-    public List<EventoListarDTO> mostrarTodosEventos(){
-        return eventoListarMapper.toDto(eventoRepository.findAllOrderDate());
-    }
     public List<EventoListarDTO> filtrarEventos(EventoFilter filter){
         return eventoListarMapper.toDto(eventoRepository.findAll(filter.filtrar()));
     }
@@ -110,7 +108,9 @@ public class EventoService {
             }
         }
         }
-
+    public Optional<Evento> buscarMotivosEmEventos(Motivo motivo){
+        return eventoRepository.findByMotivo(motivo);
+    }
 
     @Scheduled(cron = "0 0 8 * * ?")
     public void enviaRotinaEmail(){
