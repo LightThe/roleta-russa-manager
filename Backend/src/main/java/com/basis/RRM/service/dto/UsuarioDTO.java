@@ -22,7 +22,7 @@ public class UsuarioDTO {
     @Past
     @NotNull
     private LocalDate dataNascimento;
-    @Email(message = "E-mail já existe")
+    @Email(message = "E-mail deve ser um endereço válido")
     private String  email;
 
     private String telefone;
