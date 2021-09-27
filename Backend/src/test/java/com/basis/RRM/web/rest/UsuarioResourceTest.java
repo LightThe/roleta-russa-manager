@@ -47,5 +47,6 @@ public class UsuarioResourceTest {
                 post(API_URL).content(TestUtil.convertObjectToJsonBytes(dto))
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
+        
     }
 }
