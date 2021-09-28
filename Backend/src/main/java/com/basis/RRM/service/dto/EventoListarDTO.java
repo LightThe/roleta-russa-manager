@@ -11,5 +11,4 @@ public class EventoListarDTO {
     private Long id;
     private String nome;
     private LocalDate dataEvento;
-    //TODO Regra de exibicao do evento
 }

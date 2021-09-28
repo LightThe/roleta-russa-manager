@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -39,7 +40,7 @@ public class UsuarioResource {
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> salvarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDTO));
+        return ResponseEntity.created(URI.create("api/usuario/filtro")).body(usuarioDTO);
     }
 
     @PutMapping
@@ -54,7 +55,7 @@ public class UsuarioResource {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deletarUsuario(@Valid @PathVariable("id") Long id) {
         usuarioService.inativarUsuario(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 

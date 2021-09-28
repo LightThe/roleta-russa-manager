@@ -41,12 +41,22 @@ public class UsuarioResourceTest {
     }
 
     @Test @SneakyThrows
+    public void listarTodosTest(){
+
+    }
+
+    @Test @SneakyThrows
+    public void buscarPorIdTest(){
+
+    }
+
+    @Test @SneakyThrows
     public void cadastrarTest(){
         UsuarioDTO dto = usuarioBuilder.criaDTO();
         mockMvc.perform(
                 post(API_URL).content(TestUtil.convertObjectToJsonBytes(dto))
                         .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().isOk());
-        
+        ).andExpect(status().isCreated());
     }
+
 }

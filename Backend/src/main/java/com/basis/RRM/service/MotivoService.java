@@ -34,7 +34,6 @@ public class MotivoService {
 
    public MotivoDTO salvarMotivo(MotivoDTO motivoDTO){
        Motivo motivo = motivoMapper.toEntity(motivoDTO);
-       //TODO: Regra de negocio
        Motivo motivoSalvar = motivoRepository.save(motivo);
        return motivoMapper.toDto(motivoSalvar);
    }
