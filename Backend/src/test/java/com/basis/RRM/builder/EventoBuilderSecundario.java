@@ -6,7 +6,6 @@ import com.basis.RRM.dominio.Situacao;
 import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.service.dto.EventoDTO;
-import com.basis.RRM.service.dto.SelectDTO;
 import com.basis.RRM.service.mapper.EventoMapper;
 import com.basis.RRM.service.mapper.UsuarioSelectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +17,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 @Component
-public class EventoBuilder extends ConstrutorDeEntidade<Evento> {
+public class EventoBuilderSecundario extends ConstrutorDeEntidade<Evento>{
     @Autowired
     private EventoRepository eventoRepository;
     @Autowired
     private EventoMapper eventoMapper;
-    private UsuarioSelectMapper usuarioSelectMapper;
     @Autowired
     private MotivoBuilder motivoBuilder;
     @Autowired
@@ -36,19 +34,12 @@ public class EventoBuilder extends ConstrutorDeEntidade<Evento> {
 
         List<Usuario> usuarios = new ArrayList<>();
         Usuario usuario = usuarioBuilder.construir();
-
-//        SelectDTO usuarioSelectDTO = new SelectDTO();
-//        usuarioSelectDTO.setValue(usuario.getId());
-//        usuarioSelectDTO.setLabel(usuario.getNome());
-//        Usuario usuarioUtil = usuarioSelectMapper.toEntity(usuarioSelectDTO);
-//        usuarios.add(usuarioUtil);
-
         usuarios.add(usuario);
 
-        evento.setNome("Lanche dos brocados");
+        evento.setNome("Lanche dos malandros");
         evento.setDataEvento(LocalDate.now().plusMonths(2L));
-        evento.setJustificativa("mahala");
-        evento.setValor(100D);
+        evento.setJustificativa("eu sei la ");
+        evento.setValor(110D);
         evento.setMotivo(motivo);
         evento.setSituacao(situacao);
         evento.setUsuario(usuarios);

@@ -2,6 +2,7 @@ package com.basis.RRM.web.rest;
 
 
 import com.basis.RRM.service.UsuarioService;
+import com.basis.RRM.service.dto.SelectDTO;
 import com.basis.RRM.service.dto.UsuarioDTO;
 import com.basis.RRM.service.dto.UsuarioListagemDTO;
 import com.basis.RRM.service.filter.UsuarioFilter;
@@ -36,6 +37,10 @@ public class UsuarioResource {
     @GetMapping("{id}")
     public ResponseEntity<UsuarioDTO> exibirUsuarioPorId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(usuarioService.mostrarUsuarioPorId(id));
+    }
+    @GetMapping("/select")
+    public ResponseEntity<List<SelectDTO>> listarUsuariosEmSelect(){
+        return ResponseEntity.ok(usuarioService.listarUsuariosEmSelect());
     }
 
     @PostMapping

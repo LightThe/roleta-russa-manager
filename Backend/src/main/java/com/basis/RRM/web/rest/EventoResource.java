@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,8 @@ public class EventoResource {
 
     @PostMapping
     public ResponseEntity<EventoDTO> salvarEvento(@Valid @RequestBody EventoDTO eventoDTO) {
-        return ResponseEntity.ok(eventoService.salvarEvento(eventoDTO));
+        EventoDTO eventoSalvo = eventoService.salvarEvento(eventoDTO);
+        return ResponseEntity.created(URI.create("api/evento/"+eventoSalvo.getId())).body(eventoDTO);
     }
 
     @PutMapping
