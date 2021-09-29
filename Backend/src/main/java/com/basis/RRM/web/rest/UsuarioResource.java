@@ -40,7 +40,8 @@ public class UsuarioResource {
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> salvarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
-        return ResponseEntity.created(URI.create("api/usuario/filtro")).body(usuarioDTO);
+        UsuarioDTO salvo = usuarioService.salvarUsuario(usuarioDTO);
+        return ResponseEntity.created(URI.create("api/usuario/filtro?id="+salvo.getId())).body(salvo);
     }
 
     @PutMapping
