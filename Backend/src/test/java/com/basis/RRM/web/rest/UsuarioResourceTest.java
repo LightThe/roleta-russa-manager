@@ -2,6 +2,7 @@ package com.basis.RRM.web.rest;
 
 import com.basis.RRM.RrmApplication;
 import com.basis.RRM.builder.UsuarioBuilder;
+import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.service.dto.UsuarioDTO;
 import com.basis.RRM.util.TestUtil;
 import lombok.SneakyThrows;
@@ -18,7 +19,10 @@ import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
@@ -42,16 +46,23 @@ public class UsuarioResourceTest {
 
     @Test @SneakyThrows
     public void listarTodosTest(){
-
+        usuarioBuilder.construir();
+        mockMvc.perform(
+                get(API_URL+"filtro")
+        ).andExpect(status().isOk());
     }
 
     @Test @SneakyThrows
     public void buscarPorIdTest(){
-
+        Usuario usuario = usuarioBuilder.construir();
+        Long idUsuario = usuario.getId();
+        mockMvc.perform(
+                get(API_URL+idUsuario)
+        ).andExpect(status().isOk());
     }
 
     @Test @SneakyThrows
-    public void cadastrarTest(){
+    public void cadastrarUsuarioTest(){
         UsuarioDTO dto = usuarioBuilder.criaDTO();
         mockMvc.perform(
                 post(API_URL).content(TestUtil.convertObjectToJsonBytes(dto))
@@ -59,4 +70,36 @@ public class UsuarioResourceTest {
         ).andExpect(status().isCreated());
     }
 
+    @Test @SneakyThrows
+    public void editarUsuarioTest(){
+        Usuario usuario = usuarioBuilder.construir();
+        UsuarioDTO dto = usuarioBuilder.criaDTO();
+
+        dto.setId(usuario.getId());
+        dto.setTelefone("999999999");
+
+        mockMvc.perform(
+                put(API_URL).content(TestUtil.convertObjectToJsonBytes(dto))
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(status().isOk());
+    }
+
+    @Test @SneakyThrows
+    public void ativarUsuarioTest(){
+        Usuario usuario = usuarioBuilder.construir();
+        Long idUsuario = usuario.getId();
+        usuarioBuilder.disableUsuario(idUsuario);
+        mockMvc.perform(
+                put(API_URL+idUsuario)
+        ).andExpect(status().isOk());
+    }
+
+    @Test @SneakyThrows
+    public void desativarUsuarioTest(){
+        Usuario usuario = usuarioBuilder.construir();
+        Long idUsuario = usuario.getId();
+        mockMvc.perform(
+                delete(API_URL+idUsuario)
+        ).andExpect(status().isNoContent());
+    }
 }

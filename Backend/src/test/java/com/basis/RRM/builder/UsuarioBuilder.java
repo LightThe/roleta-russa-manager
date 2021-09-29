@@ -57,4 +57,14 @@ public class UsuarioBuilder extends ConstrutorDeEntidade<Usuario> {
     public void deleteAll(){
         usuarioRepository.deleteAll();
     }
+
+    public void getDtoById(){
+
+    }
+
+    public void disableUsuario(Long id){
+        Usuario usuario = usuarioRepository.getById(id);
+        usuario.setStatus(false);
+        usuarioRepository.save(usuario);
+    }
 }

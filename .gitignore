@@ -1,5 +1,5 @@
 HELP.md
-Backend/target/
+/Backend/target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
@@ -14,10 +14,10 @@ Backend/target/
 .sts4-cache
 
 ### IntelliJ IDEA ###
-Backend/.idea
-Backend/*.iws
-Backend/*.iml
-Backend/*.ipr
+/Backend/.idea
+/Backend/*.iws
+/Backend/*.iml
+/Backend/*.ipr
 .idea
 *.iws
 *.iml
@@ -34,7 +34,44 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-Backend/.vscode/
+/Backend/.vscode/
 
 ### MAVEN ###
-Backend/.mvn
+/Backend/.mvn
+
+# compiled output
+/frontend/dist
+/frontend/tmp
+/frontend/out-tsc
+
+# dependencies
+/frontend/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+/frontend/.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/frontend/.sass-cache
+/frontend/connect.lock
+/frontend/coverage
+/frontend/libpeerconnection.log
+/frontend/npm-debug.log
+/frontend/testem.log
+/frontend/typings
+
+# e2e
+/frontend/e2e/*.js
+/frontend/e2e/*.map
