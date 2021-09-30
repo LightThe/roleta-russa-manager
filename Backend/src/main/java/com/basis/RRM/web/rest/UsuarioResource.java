@@ -29,6 +29,11 @@ public class UsuarioResource {
 
     private final UsuarioService usuarioService;
 
+    @GetMapping
+    public ResponseEntity<List<SelectDTO>> listarUsuariosEmSelect(){
+        return ResponseEntity.ok(usuarioService.listarUsuariosEmSelect());
+    }
+
     @GetMapping("/filtro")
     public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosFiltrado(UsuarioFilter usuario){
         return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosFiltrado(usuario));
@@ -37,10 +42,6 @@ public class UsuarioResource {
     @GetMapping("{id}")
     public ResponseEntity<UsuarioDTO> exibirUsuarioPorId(@PathVariable("id") Long id) {
         return ResponseEntity.ok(usuarioService.mostrarUsuarioPorId(id));
-    }
-    @GetMapping("/select")
-    public ResponseEntity<List<SelectDTO>> listarUsuariosEmSelect(){
-        return ResponseEntity.ok(usuarioService.listarUsuariosEmSelect());
     }
 
     @PostMapping
@@ -53,6 +54,7 @@ public class UsuarioResource {
     public ResponseEntity<UsuarioDTO> atualizarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
         return ResponseEntity.ok(usuarioService.editarUsuario(usuarioDTO));
     }
+
     @PutMapping("{id}")
     public ResponseEntity<UsuarioDTO> ativarUsuario(@Valid @PathVariable("id") Long id){
         return ResponseEntity.ok(usuarioService.ativarusuario(id));
@@ -63,8 +65,6 @@ public class UsuarioResource {
         usuarioService.inativarUsuario(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
 }
 

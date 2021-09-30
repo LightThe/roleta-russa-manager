@@ -28,6 +28,7 @@ public class EventoBuilder extends ConstrutorDeEntidade<Evento> {
     private MotivoBuilder motivoBuilder;
     @Autowired
     private UsuarioBuilder usuarioBuilder;
+
     protected Evento construirEntidade() throws ParseException {
         Evento evento = new Evento();
         Motivo motivo = motivoBuilder.construir();
@@ -35,25 +36,19 @@ public class EventoBuilder extends ConstrutorDeEntidade<Evento> {
         situacao.setId(1L);
 
         List<Usuario> usuarios = new ArrayList<>();
-        Usuario usuario = usuarioBuilder.construir();
-
-//        SelectDTO usuarioSelectDTO = new SelectDTO();
-//        usuarioSelectDTO.setValue(usuario.getId());
-//        usuarioSelectDTO.setLabel(usuario.getNome());
-//        Usuario usuarioUtil = usuarioSelectMapper.toEntity(usuarioSelectDTO);
-//        usuarios.add(usuarioUtil);
-
-        usuarios.add(usuario);
+        if(usuarioBuilder.obterTodos().isEmpty()){
+            Usuario usuario = usuarioBuilder.construir();
+            usuarios.add(usuario);
+        }else{
+            usuarios.add(usuarioBuilder.obterTodos().iterator().next());
+        }
 
         evento.setNome("Lanche dos brocados");
         evento.setDataEvento(LocalDate.now().plusMonths(2L));
-        evento.setJustificativa("mahala");
-        evento.setValor(100D);
+        evento.setValor(80D);
         evento.setMotivo(motivo);
         evento.setSituacao(situacao);
         evento.setUsuario(usuarios);
-
-
 
         return evento;
     }
@@ -80,7 +75,10 @@ public class EventoBuilder extends ConstrutorDeEntidade<Evento> {
     public EventoDTO construirEntidadeDTO() throws ParseException{
         return eventoMapper.toDto(construirEntidade());
     }
-    public void deletar(){
+
+    public void deletarTudo(){
         eventoRepository.deleteAll();
+        usuarioBuilder.deleteAll();
+        motivoBuilder.delete();
     }
 }

@@ -53,6 +53,14 @@ public class UsuarioResourceTest {
     }
 
     @Test @SneakyThrows
+    public void selectDtoUsuariosTest(){
+        usuarioBuilder.construir();
+        mockMvc.perform(
+                get(API_URL)
+        ).andExpect(status().isOk());
+    }
+
+    @Test @SneakyThrows
     public void buscarPorIdTest(){
         Usuario usuario = usuarioBuilder.construir();
         Long idUsuario = usuario.getId();

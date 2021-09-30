@@ -33,13 +33,17 @@ public class EventoBuilderSecundario extends ConstrutorDeEntidade<Evento>{
         situacao.setId(1L);
 
         List<Usuario> usuarios = new ArrayList<>();
-        Usuario usuario = usuarioBuilder.construir();
-        usuarios.add(usuario);
+        if(usuarioBuilder.obterTodos().isEmpty()){
+            Usuario usuario = usuarioBuilder.construir();
+            usuarios.add(usuario);
+        }else{
+            usuarios.add(usuarioBuilder.obterTodos().iterator().next());
+        }
 
         evento.setNome("Lanche dos malandros");
-        evento.setDataEvento(LocalDate.now().plusMonths(2L));
+        evento.setDataEvento(LocalDate.now().plusMonths(3L));
         evento.setJustificativa("eu sei la ");
-        evento.setValor(110D);
+        evento.setValor(90D);
         evento.setMotivo(motivo);
         evento.setSituacao(situacao);
         evento.setUsuario(usuarios);

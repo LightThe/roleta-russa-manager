@@ -4,7 +4,6 @@ package com.basis.RRM.web.rest;
 import com.basis.RRM.RrmApplication;
 import com.basis.RRM.builder.EventoBuilder;
 import com.basis.RRM.builder.EventoBuilderSecundario;
-import com.basis.RRM.builder.MotivoBuilder;
 import com.basis.RRM.dominio.Evento;
 import com.basis.RRM.service.dto.EventoDTO;
 import com.basis.RRM.util.TestUtil;
@@ -44,9 +43,10 @@ public class EventoResourceTest {
     public void initTest(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
         eventoBuilder.setCustomizacao(null);
-        eventoBuilder.deletar();
+        eventoBuilder.deletarTudo();
         eventoBuilderSecundario.setCustomizacao(null);
         eventoBuilderSecundario.deletar();
+
     }
 
     @Test @SneakyThrows
@@ -99,10 +99,17 @@ public class EventoResourceTest {
         Long idEventoSecundario = eventoSecundario.getId();
 
         mockMvc.perform(
-                put(API_URL+idEventoPrimario+"/"+idEventoSecundario)
+                put(API_URL+"trocar/"+idEventoPrimario+"/"+idEventoSecundario)
         ).andExpect(status().isOk());
     }
 
-
+    @Test @SneakyThrows
+    public void cancelarEventoTest(){
+        Evento evento = eventoBuilder.construir();
+        Long idEvento = evento.getId();
+        mockMvc.perform(
+                delete(API_URL+idEvento)
+        ).andExpect(status().isNoContent());
+    }
 
 }

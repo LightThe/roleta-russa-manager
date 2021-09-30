@@ -40,7 +40,7 @@ public class EventoResource {
     @PostMapping
     public ResponseEntity<EventoDTO> salvarEvento(@Valid @RequestBody EventoDTO eventoDTO) {
         EventoDTO eventoSalvo = eventoService.salvarEvento(eventoDTO);
-        return ResponseEntity.created(URI.create("api/evento/"+eventoSalvo.getId())).body(eventoDTO);
+        return ResponseEntity.created(URI.create("api/evento/filtro?id="+eventoSalvo.getId())).body(eventoDTO);
     }
 
     @PutMapping
@@ -63,7 +63,7 @@ public class EventoResource {
     @DeleteMapping("{id}")
     public ResponseEntity<Void> cancelarEvento(@PathVariable("id") Long id) {
         eventoService.cancelarEvento(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
