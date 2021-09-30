@@ -2,6 +2,7 @@ package com.basis.RRM.web.rest;
 
 
 import com.basis.RRM.service.UsuarioService;
+import com.basis.RRM.service.dto.SelectDTO;
 import com.basis.RRM.service.dto.UsuarioDTO;
 import com.basis.RRM.service.dto.UsuarioListagemDTO;
 import com.basis.RRM.service.filter.UsuarioFilter;
@@ -28,6 +29,11 @@ public class UsuarioResource {
 
     private final UsuarioService usuarioService;
 
+    @GetMapping
+    public ResponseEntity<List<SelectDTO>> listarUsuariosEmSelect(){
+        return ResponseEntity.ok(usuarioService.listarUsuariosEmSelect());
+    }
+
     @GetMapping("/filtro")
     public ResponseEntity<List<UsuarioListagemDTO>> exibirUsuariosFiltrado(UsuarioFilter usuario){
         return ResponseEntity.ok(usuarioService.mostrarTodosUsuariosFiltrado(usuario));
@@ -48,6 +54,7 @@ public class UsuarioResource {
     public ResponseEntity<UsuarioDTO> atualizarUsuario(@Valid @RequestBody UsuarioDTO usuarioDTO) {
         return ResponseEntity.ok(usuarioService.editarUsuario(usuarioDTO));
     }
+
     @PutMapping("{id}")
     public ResponseEntity<UsuarioDTO> ativarUsuario(@Valid @PathVariable("id") Long id){
         return ResponseEntity.ok(usuarioService.ativarusuario(id));
@@ -58,8 +65,6 @@ public class UsuarioResource {
         usuarioService.inativarUsuario(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
-
-
 
 }
 
