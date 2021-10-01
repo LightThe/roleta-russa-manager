@@ -1,0 +1,26 @@
+ui-card-content{
+    background-color: darkblue;
+    color: darkblue;
+}
+.title{
+    width: 25rem;
+    margin-bottom: 2em;
+    padding:3%;
+  
+}
+h1{
+    text-align: center;
+    color: crimson;
+   
+}
+
+strong{
+font-size: 20px;
+
+}
+
+
+td{
+    text-align: center; 
+
+}
