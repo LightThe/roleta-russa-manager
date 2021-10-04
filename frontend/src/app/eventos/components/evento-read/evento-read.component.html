@@ -1,0 +1,25 @@
+<p-card class="title">
+    EVENTOS
+</p-card>
+
+<p-card>
+    <p-table [value]="eventos" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="listaEventoSelecionado">
+        <ng-template pTemplate="header">
+            <tr>
+                <th *ngFor="let header of headers">
+                    <strong>{{header}}</strong>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-evento>
+            <tr [pSelectableRow]="evento">
+                <td>
+                    {{evento.nome}}
+                </td>
+                <td>
+                    {{evento.dataEvento}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>

@@ -1,4 +1,4 @@
-import { Select } from "./select.model";
+import { Select } from "../../models/select.model";
 
 export class Evento{
     public id : number
