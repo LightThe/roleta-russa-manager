@@ -28,7 +28,7 @@ public class EventoFilter implements EntityFilter<Evento> {
 
     private List<Predicate> getPredicates (Root<Evento>root, CriteriaQuery<?>cq, CriteriaBuilder cb){
         List<Predicate> predicates = new ArrayList<>();
-        cq.orderBy(cb.desc(root.get("id")));
+        cq.orderBy(cb.desc(root.get("dataEvento")));
 
         if (nome != null){
             predicates.add(cb.like(root.get(Evento_.nome), "%"+ nome + "%"));
