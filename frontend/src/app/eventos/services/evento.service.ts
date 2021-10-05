@@ -13,7 +13,7 @@ export class EventoService {
 
   constructor(private httClient: HttpClient) { }
 
-  filter(): Observable<EventoListagem[]>{
+  filter(nome?: string): Observable<EventoListagem[]>{
     const url = `${this.baseUrl}/filtro`;
     return this.httClient.get<EventoListagem[]>(url);
   }

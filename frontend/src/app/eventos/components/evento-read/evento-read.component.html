@@ -1,7 +1,6 @@
-<p-card>
-    <h3>EVENTOS</h3>
-    <hr />
+<div class="ui-g">
 
+<p-card class="ui-sm-12 ui-md-6 ui-lg-6" header="Eventos">
     <div class="timeline">
         <div class="entry" *ngFor="let evento of eventos">
             <div class="title">
@@ -14,6 +13,12 @@
         </div>
     </div>
 </p-card>
+
+<p-card class="ui-sm-12 ui-md-6 ui-lg-6" header="Buscar Evento">
+    <p-button label="Este botão" (onClick)="filtrar('Lanche')"></p-button>
+</p-card>
+
+</div>
 
 <p-dialog draggable="false" closable="false" header="Detalhes do evento" [(visible)]="mostrarEvento">
     <div *ngIf="mostrarEvento">

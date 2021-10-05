@@ -12,55 +12,33 @@ import { EventoService } from '../../services/evento.service';
 export class EventoReadComponent implements OnInit {
 
   eventos: EventoListagem[] = [];
+  eventosFiltrado: EventoListagem[] = [];
+  value: Date;
   eventoCompleto: Evento;
-  headers: string[] = [
-    'Nome',
-    'Data'
-  ];
   listaEventoSelecionado: EventoListagem[];
   mostrarEvento: boolean = false;
+  eventonovo: EventoListagem;
   
-  //TODO: remover esses caras
-  eventoAtual: EventoListagem = {
-    id: 1,
-    nome: 'DELETEME: Evento local de teste!',
-    dataEvento: new Date(2021, 11, 10)
-  };
-  
-
-
   constructor(private eventoService: EventoService) { }
 
   ngOnInit(): void {
     this.eventoService.filter().subscribe(element => this.eventos = element);
-    //this.eventos.push(this.eventoAtual);
-    //this.eventos.push(this.eventoAtual);
   }
 
   mostrar(id: number): void{
-    console.log(id);
-    this.eventoService.mostrarPorId(id).subscribe(element => this.eventoCompleto = element);
-    // this.eventoCompleto = {
-    //   id: 1,
-    //   nome: 'Nome do evento',
-    //   dataEvento: new Date(2021, 11, 10),
-    //   justificativa: null,
-    //   valor: '80',
-    //   motivo: {
-    //     value: 1,
-    //     label: 'A gente quer beber'
-    //   },
-    //   situacao: {
-    //     value: 1,
-    //     label: 'Agendado'
-    //   },
-    //   usuarios: [
-    //     {
-    //       value: 1,
-    //       label: 'Márcia'
-    //     }
-    //   ]
-    // }
-    this.mostrarEvento = true;
+    this.eventoService.mostrarPorId(id).subscribe(element => {
+      this.eventoCompleto = element;
+      this.mostrarEvento = true;
+    });
   }
+
+  filtrar(nome: string): void{
+    console.log("filtrou");
+    this.eventoService.filter("Lanche").subscribe(element => 
+      {
+        this.eventos = element;
+        console.log(element);
+      });
+  }
+
 }
