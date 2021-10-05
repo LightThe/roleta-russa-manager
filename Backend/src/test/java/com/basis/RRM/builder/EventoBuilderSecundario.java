@@ -6,7 +6,6 @@ import com.basis.RRM.dominio.Situacao;
 import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.service.dto.EventoDTO;
-import com.basis.RRM.service.dto.SelectDTO;
 import com.basis.RRM.service.mapper.EventoMapper;
 import com.basis.RRM.service.mapper.UsuarioSelectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +17,15 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 @Component
-public class EventoBuilder extends ConstrutorDeEntidade<Evento> {
+public class EventoBuilderSecundario extends ConstrutorDeEntidade<Evento>{
     @Autowired
     private EventoRepository eventoRepository;
     @Autowired
     private EventoMapper eventoMapper;
-    private UsuarioSelectMapper usuarioSelectMapper;
     @Autowired
     private MotivoBuilder motivoBuilder;
     @Autowired
     private UsuarioBuilder usuarioBuilder;
-
     protected Evento construirEntidade() throws ParseException {
         Evento evento = new Evento();
         Motivo motivo = motivoBuilder.construir();
@@ -43,12 +40,15 @@ public class EventoBuilder extends ConstrutorDeEntidade<Evento> {
             usuarios.add(usuarioBuilder.obterTodos().iterator().next());
         }
 
-        evento.setNome("Lanche dos brocados");
-        evento.setDataEvento(LocalDate.now().plusMonths(2L));
-        evento.setValor(80D);
+        evento.setNome("Lanche dos malandros");
+        evento.setDataEvento(LocalDate.now().plusMonths(3L));
+        evento.setJustificativa("eu sei la ");
+        evento.setValor(90D);
         evento.setMotivo(motivo);
         evento.setSituacao(situacao);
         evento.setUsuario(usuarios);
+
+
 
         return evento;
     }
@@ -75,10 +75,7 @@ public class EventoBuilder extends ConstrutorDeEntidade<Evento> {
     public EventoDTO construirEntidadeDTO() throws ParseException{
         return eventoMapper.toDto(construirEntidade());
     }
-
-    public void deletarTudo(){
+    public void deletar(){
         eventoRepository.deleteAll();
-        usuarioBuilder.deleteAll();
-        motivoBuilder.delete();
     }
 }

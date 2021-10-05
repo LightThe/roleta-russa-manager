@@ -1,9 +1,10 @@
 package com.basis.RRM.web.rest;
 
+
 import com.basis.RRM.RrmApplication;
-import com.basis.RRM.builder.UsuarioBuilder;
-import com.basis.RRM.dominio.Usuario;
-import com.basis.RRM.service.dto.UsuarioDTO;
+import com.basis.RRM.builder.MotivoBuilder;
+import com.basis.RRM.dominio.Motivo;
+import com.basis.RRM.service.dto.MotivoDTO;
 import com.basis.RRM.util.TestUtil;
 import lombok.SneakyThrows;
 import org.junit.Before;
@@ -18,96 +19,80 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import javax.transaction.Transactional;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Transactional
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = RrmApplication.class)
-public class UsuarioResourceTest {
+public class MotivoResourceTest {
     private MockMvc mockMvc;
-    private final String API_URL = "/api/usuario/";
+    private final String API_URL = "/api/motivo/";
 
     @Autowired
-    private UsuarioBuilder usuarioBuilder;
+    private MotivoBuilder motivoBuilder;
     @Autowired
     private WebApplicationContext webApplicationContext;
 
     @Before
-    public void initTeste(){
+    public void initTest(){
         mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();
-        usuarioBuilder.setCustomizacao(null);
-        usuarioBuilder.deleteAll();
+        motivoBuilder.setCustomizacao(null);
+        motivoBuilder.delete();
     }
 
     @Test @SneakyThrows
-    public void listarTodosTest(){
-        usuarioBuilder.construir();
-        mockMvc.perform(
-                get(API_URL+"filtro")
-        ).andExpect(status().isOk());
-    }
-
-    @Test @SneakyThrows
-    public void selectDtoUsuariosTest(){
-        usuarioBuilder.construir();
+    public void exibirTodos(){
+        motivoBuilder.construir();
         mockMvc.perform(
                 get(API_URL)
         ).andExpect(status().isOk());
     }
-
     @Test @SneakyThrows
-    public void buscarPorIdTest(){
-        Usuario usuario = usuarioBuilder.construir();
-        Long idUsuario = usuario.getId();
+    public void obterMotivoPorId (){
+        Motivo motivo = motivoBuilder.construir();
+        Long idMotivo = motivo.getId();
         mockMvc.perform(
-                get(API_URL+idUsuario)
+                get(API_URL+idMotivo)
         ).andExpect(status().isOk());
+
     }
 
     @Test @SneakyThrows
-    public void cadastrarUsuarioTest(){
-        UsuarioDTO dto = usuarioBuilder.criaDTO();
+    public void exibirMotivosEmSelect(){
+        motivoBuilder.construir();
         mockMvc.perform(
-                post(API_URL).content(TestUtil.convertObjectToJsonBytes(dto))
+                get(API_URL+"select")
+        ).andExpect(status().isOk());
+    }
+    @Test @SneakyThrows
+    public void salvarMotivo(){
+        MotivoDTO motivoDTO = motivoBuilder.criarDTO();
+        mockMvc.perform(
+                post(API_URL).content(TestUtil.convertObjectToJsonBytes(motivoDTO))
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isCreated());
     }
-
     @Test @SneakyThrows
-    public void editarUsuarioTest(){
-        Usuario usuario = usuarioBuilder.construir();
-        UsuarioDTO dto = usuarioBuilder.criaDTO();
-
-        dto.setId(usuario.getId());
-        dto.setTelefone("999999999");
-
+    public void atualizarMotivo(){
+        Motivo motivo = motivoBuilder.construir();
+        MotivoDTO motivoDTO = motivoBuilder.criarDTO();
+        motivoDTO.setId(motivo.getId());
         mockMvc.perform(
-                put(API_URL).content(TestUtil.convertObjectToJsonBytes(dto))
+                put(API_URL).content(TestUtil.convertObjectToJsonBytes(motivoDTO))
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().isOk());
     }
-
     @Test @SneakyThrows
-    public void ativarUsuarioTest(){
-        Usuario usuario = usuarioBuilder.construir();
-        Long idUsuario = usuario.getId();
-        usuarioBuilder.disableUsuario(idUsuario);
+    public void deletar(){
+        Motivo motivo = motivoBuilder.construir();
+        Long motivoId = motivo.getId();
         mockMvc.perform(
-                put(API_URL+idUsuario)
+                delete(API_URL+motivoId)
         ).andExpect(status().isOk());
     }
 
-    @Test @SneakyThrows
-    public void desativarUsuarioTest(){
-        Usuario usuario = usuarioBuilder.construir();
-        Long idUsuario = usuario.getId();
-        mockMvc.perform(
-                delete(API_URL+idUsuario)
-        ).andExpect(status().isNoContent());
-    }
 }

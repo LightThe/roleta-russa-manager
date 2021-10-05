@@ -4,12 +4,14 @@ import com.basis.RRM.dominio.Evento;
 import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.repository.UsuarioRepository;
+import com.basis.RRM.service.dto.SelectDTO;
 import com.basis.RRM.service.dto.UsuarioDTO;
 import com.basis.RRM.service.dto.UsuarioListagemDTO;
 import com.basis.RRM.service.exception.RegraNegocioException;
 import com.basis.RRM.service.filter.UsuarioFilter;
 import com.basis.RRM.service.mapper.UsuarioListagemMapper;
 import com.basis.RRM.service.mapper.UsuarioMapper;
+import com.basis.RRM.service.mapper.UsuarioSelectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +26,7 @@ public class UsuarioService {
     private final EventoService eventoService;
     private final UsuarioMapper usuarioMapper;
     private final UsuarioListagemMapper usuarioListagemMapper;
-
+    private final UsuarioSelectMapper usuarioSelectMapper;
     
     public List<UsuarioListagemDTO> mostrarTodosUsuariosFiltrado(UsuarioFilter filtro) {
         return usuarioListagemMapper.toDto(usuarioRepository.findAll(filtro.filtrar()));
@@ -34,6 +36,10 @@ public class UsuarioService {
     public UsuarioDTO mostrarUsuarioPorId(Long id) {
         Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RegraNegocioException("Usuario não existe"));
         return usuarioMapper.toDto(usuario);
+    }
+
+    public List<SelectDTO> listarUsuariosEmSelect(){
+        return usuarioSelectMapper.toDto(usuarioRepository.findAll());
     }
 
     public UsuarioDTO salvarUsuario(UsuarioDTO usuarioDTO) {
