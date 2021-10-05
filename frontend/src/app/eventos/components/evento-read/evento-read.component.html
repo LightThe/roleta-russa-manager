@@ -1,25 +1,56 @@
-<p-card class="title">
-    EVENTOS
+<p-card>
+    <h3>EVENTOS</h3>
+    <hr />
+
+    <ul>
+        <li *ngFor="let evento of eventos">
+            <div class="DataTL">{{evento.dataEvento | date: 'dd/MM/yyyy'}}</div>
+            <div class="DataGrande">{{evento.nome}}</div>
+            
+        </li>
+    </ul>
+
+    <p-button label="Detalhes do evento" (onClick)="mostrar()"></p-button>
 </p-card>
 
-<p-card>
-    <p-table [value]="eventos" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="listaEventoSelecionado">
-        <ng-template pTemplate="header">
-            <tr>
-                <th *ngFor="let header of headers">
-                    <strong>{{header}}</strong>
-                </th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-evento>
-            <tr [pSelectableRow]="evento">
-                <td>
-                    {{evento.nome}}
-                </td>
-                <td>
-                    {{evento.dataEvento}}
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-</p-card>
+<p-dialog draggable="false" closable="false" header="Detalhes do evento" [(visible)]="mostrarEvento">
+    <div *ngIf="mostrarEvento">
+        <div class="HeaderModal">
+            <span class="NomeEvento">{{eventoCompleto.nome}}</span> <br />
+            <span class="DataGrande">{{eventoCompleto.situacao.label}}, {{eventoCompleto.dataEvento | date: 'dd/MM/yyyy'}}</span>
+        </div>
+        
+        <p-card header="Detalhes" class="ui-sm-6 ui-md-6 ui-lg-6">
+            Valor: {{eventoCompleto.valor | currency: 'BRL'}}<br />
+            Motivo: {{eventoCompleto.motivo.label}}
+        </p-card>
+        <p-card header="Patrocinadores" class="ui-sm-6 ui-md-6 ui-lg-6">
+            <ul>
+                <li *ngFor="let usuario of eventoCompleto.usuarios">
+                    {{usuario.label}}
+                </li>
+            </ul>
+        </p-card>
+    </div>
+</p-dialog>
+<!--
+<p-table [value]="eventos" [paginator]="true" [rows]="10" selectionMode="single" [(selection)]="listaEventoSelecionado">
+    <ng-template pTemplate="header">
+        <tr>
+            <th *ngFor="let header of headers">
+                <strong>{{header}}</strong>
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-evento>
+        <tr [pSelectableRow]="evento">
+            <td>
+                {{evento.nome}}
+            </td>
+            <td>
+                {{evento.dataEvento | date: 'dd/MM/yyyy'}}
+            </td>
+        </tr>
+    </ng-template>
+</p-table>
+-->
