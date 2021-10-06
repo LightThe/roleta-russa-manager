@@ -33,5 +33,9 @@ export class UsuarioService {
         return this.httClient.get<UsuarioModel>(url);
     }
 
+    inativarUsuario(id: number): Observable<UsuarioModel>{
+        const url = `${this.baseUrl}/${id}`;
+        return this.httClient.delete<UsuarioModel>(url);
+    }
 
 }
