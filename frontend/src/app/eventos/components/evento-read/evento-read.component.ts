@@ -33,11 +33,11 @@ export class EventoReadComponent implements OnInit {
   }
 
   filtrar(nome: string): void{
-    console.log("filtrou");
-    this.eventoService.filter("Lanche").subscribe(element => 
+    // console.log("filtrou");
+    this.eventoService.filter().subscribe(element => 
       {
         this.eventos = element;
-        console.log(element);
+        // console.log(element);
       });
   }
 

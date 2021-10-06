@@ -13,7 +13,7 @@ export class EventoService {
 
   constructor(private httClient: HttpClient) { }
 
-  filter(nome?: string): Observable<EventoListagem[]>{
+  filter(): Observable<EventoListagem[]>{
     const url = `${this.baseUrl}/filtro`;
     return this.httClient.get<EventoListagem[]>(url);
   }
@@ -21,6 +21,10 @@ export class EventoService {
   mostrarPorId(id: number): Observable<Evento>{
     const url = `${this.baseUrl}/${id}`
     return this.httClient.get<Evento>(url);
+  }
+
+  criarEvento(evento: Evento): Observable<Evento>{
+    return this.httClient.post<Evento>(this.baseUrl, evento);
   }
 
 }
