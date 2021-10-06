@@ -1,4 +1,4 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -22,7 +22,7 @@ export class UsuarioService {
     constructor(private httClient: HttpClient) { }
 
 
-    filter(): Observable<UsuarioListagem[]> {
+    buscarUsuariosAtivos(): Observable<UsuarioListagem[]> {
         const url = `${this.baseUrl}/filtro`
         return this.httClient.get<UsuarioListagem[]>(url);
 
@@ -36,6 +36,11 @@ export class UsuarioService {
     inativarUsuario(id: number): Observable<UsuarioModel>{
         const url = `${this.baseUrl}/${id}`;
         return this.httClient.delete<UsuarioModel>(url);
+    }
+
+    editarUsuario(usuario: UsuarioModel): Observable<UsuarioModel>{
+        const url = `${this.baseUrl}`;
+        return this.httClient.put<UsuarioModel>(url, usuario)
     }
 
 }

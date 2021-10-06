@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { MessagesModule, SelectItem } from 'primeng';
 import { Select } from 'src/app/models/select.model';
 import { UsuarioModel } from 'src/app/models/usuario.model';
@@ -31,15 +32,15 @@ export class UsuariosReadComponent implements OnInit {
 
 
 
-  constructor(private usuarioService: UsuarioService, private cargoService: CargoService) { }
+  constructor(private usuarioService: UsuarioService, private cargoService: CargoService, private router: Router) { }
 
   ngOnInit() {
-    this.usuarioService.filter().subscribe(element => this.usuarios = element);
-    this.criarFormulario();
+    this.inicializarListagem();
   }
 
   mostrar(): void {
     this.usuarioService.mostrarPoriD(this.usuarioSelecionado.id).subscribe(element => {
+      this.gerarListaDeCargos();
       this.usuarioCompleto = element;
       this.exibirDialog();
       this.preencherFormulario();
@@ -49,10 +50,17 @@ export class UsuariosReadComponent implements OnInit {
 
   }
 
+
+  inicializarListagem(): void {
+    this.usuarioService. buscarUsuariosAtivos().subscribe(element => this.usuarios = element);
+    this.criarFormulario();
+  }
+
   ativadorDialog: boolean;
 
   exibirDialog(): void {
     this.ativadorDialog = true;
+    this.habilitarSalvar = true;
   }
 
 
@@ -62,41 +70,47 @@ export class UsuariosReadComponent implements OnInit {
       id: [''],
       nome: [''],
       cpf: [''],
-      data: [''],
+      dataNascimento: [''],
       email: [''],
       telefone: [''],
       status: [''],
-      cargo: ['', Validators.required],
-
-    })
-
+      cargo: ['']
+    });
   }
 
   preencherFormulario(): void {
     this.form.get('id').setValue(this.usuarioCompleto.id);
     this.form.get('nome').setValue(this.usuarioCompleto.nome);
     this.form.get('cpf').setValue(this.usuarioCompleto.cpf);
-    this.form.get('data').setValue(this.usuarioCompleto.dataNascimento);
+    this.form.get('dataNascimento').setValue(this.usuarioCompleto.dataNascimento);
     this.form.get('email').setValue(this.usuarioCompleto.email);
     this.form.get('telefone').setValue(this.usuarioCompleto.telefone);
     this.form.get('status').setValue(this.usuarioCompleto.status);
     this.form.get('cargo').setValue(this.usuarioCompleto.cargo.value);
 
-    this.gerarListaDeCargos();
     this.bloquearCampos();
   }
 
   bloquearCampos(): void {
     this.form.disable();
+  }
+
+  habilitarEdicao(): void {
+    this.form.enable();
+    this.form.get('cpf').disable()
+    this.form.get('status').disable();
+    this.habilitarSalvar = false;
 
   }
 
   editarUsuario(): void {
-    this.form.enable();
-    this.habilitarSalvar = true;
+    let usuario: UsuarioModel = this.form.getRawValue();
+    usuario.status = this.usuarioCompleto.status;
+    usuario.cargo = { value: this.form.get('cargo').value };
+    this.usuarioService.editarUsuario(usuario).subscribe(() => this.inicializarListagem());
+    this.ativadorDialog = false;
 
   }
-
 
 
   inativarUsuario(): void {
@@ -109,13 +123,11 @@ export class UsuariosReadComponent implements OnInit {
 
 
   gerarListaDeCargos(): void {
-    // this.cargoService.buscarTodos().subscribe((element: SelectItem[]) => this.cargos = [{label: 'Selecione o cargo', value: null} as SelectItem].concat(element))
-    this.cargoService.buscarTodos().subscribe(element => this.cargos = element)
-    console.log(this.cargos)
+    this.cargoService.buscarTodos().subscribe((element: SelectItem[]) => this.cargos = [{ label: 'Selecione o cargo', value: null } as SelectItem].concat(element))
   }
 
 
- habilitarSalvar: boolean;
+  habilitarSalvar: boolean;
 
 
 }
