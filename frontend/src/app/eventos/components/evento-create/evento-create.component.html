@@ -1,1 +1,6 @@
-<p>evento-create works!</p>
+<p-card header="Novo Evento">
+  <form [formGroup]="formEvento">
+    <label for="nome-evento">Nome do Evento:</label>
+    <input id="nome-evento" type="text" formControlName="nome" />
+  </form>
+</p-card>

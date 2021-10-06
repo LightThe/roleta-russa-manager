@@ -54,11 +54,10 @@ public class EventoResource {
     }
 
     @PutMapping("/trocar/{idPri}/{idSec}")
-    public ResponseEntity<Void> trocarDataDeEventos(@PathVariable("idPri")Long idPri,@PathVariable("idSec") Long idSec){
-        eventoService.trocarEventosDeData(idPri,idSec);
+    public ResponseEntity<Void> trocarDataDeEventos(@PathVariable("idPri")Long idPri,@PathVariable("idSec") Long idSec) {
+        eventoService.trocarEventosDeData(idPri, idSec);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> cancelarEvento(@PathVariable("id") Long id) {

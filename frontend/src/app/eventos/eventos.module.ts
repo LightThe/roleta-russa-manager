@@ -5,6 +5,7 @@ import { EventosRoutingModule } from './eventos-routing.module';
 import { EventoReadComponent } from './components/evento-read/evento-read.component';
 import { PRIMENG_IMPORTS } from '../shared/primeng-imports';
 import { EventoCreateComponent } from './components/evento-create/evento-create.component';
+import { SharedModule } from '../shared/shared.module';
 
 
 @NgModule({
@@ -12,7 +13,7 @@ import { EventoCreateComponent } from './components/evento-create/evento-create.
   imports: [
     CommonModule,
     EventosRoutingModule,
-    PRIMENG_IMPORTS
+    SharedModule
   ]
 })
 export class EventosModule { }
