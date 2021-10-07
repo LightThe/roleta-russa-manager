@@ -67,11 +67,21 @@ export class EventoReadComponent implements OnInit {
 
   filtrar(nome: string): void{
     var dadosForm = this.buscaForm.getRawValue();
-    console.log(this.buscaForm.getRawValue());
     if(dadosForm.data != "" && dadosForm.data != null) {
       dadosForm.data = this.buscaForm.get('data').value.toJSON().split('T')[0];
     }
     this.eventoService.filter(dadosForm).subscribe(element => this.eventos = element);
+  }
+
+  trocar(id: number): void{
+    // 
+    this.eventoService.trocarEventos(id, null);
+  }
+  adiar(id: number): void{
+    this.eventoService.adiarEvento(id);
+  }
+  cancelar(id: number): void{
+    this.eventoService.cancelarEvento(id);
   }
 
 }

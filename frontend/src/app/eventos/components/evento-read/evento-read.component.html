@@ -52,10 +52,15 @@
                 </li>
             </ul>
         </p-card>
+        <p-fieldset legend="trocar eventos">
+            <p-dropdown [options]=""></p-dropdown>
+        </p-fieldset>
     </div>
     <p-footer>
-        <p-button label="Trocar com outro evento"></p-button>
-        <p-button label="Adiar"></p-button>
-        <p-button label="Cancelar"></p-button>
+        <p-button label="Trocar com outro evento" (onClick)="trocar(eventoCompleto.id)"></p-button>
+        <p-button label="Adiar em 1 semana" (onClick)="adiar(eventoCompleto.id)"></p-button>
+        <p-button label="Cancelar" (onClick)="cancelar(eventoCompleto.id)"></p-button>
     </p-footer>
 </p-dialog>
+
+<!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->

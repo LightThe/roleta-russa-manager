@@ -14,18 +14,6 @@ export class EventoService {
 
   constructor(private httClient: HttpClient) { }
 
-  // options = { params: new HttpParams()};
-
-  // buildFilter(): any{
-  //   var teste = new HttpParams();
-  //   if(params['nome']){
-  //     return { params: new HttpParams().append('nome', 'Evento')};
-  //   }
-  //   if(params['data']){
-  //     return { params: new HttpParams().append('nome', 'Evento')};
-  //   }
-  // }
-
   filter(params?: { [key:string]: string }): Observable<EventoListagem[]>{
     const url = `${this.baseUrl}/filtro`;
     var options = { params: new HttpParams() };
@@ -54,6 +42,21 @@ export class EventoService {
 
   criarEvento(evento: Evento): Observable<Evento>{
     return this.httClient.post<Evento>(this.baseUrl, evento);
+  }
+
+  trocarEventos(idPri: number, idSec: number): Observable<Evento>{
+    const url = `${this.baseUrl}/trocar/${idPri}/${idSec}`;
+    return this.httClient.put<Evento>(url, null);
+  }
+
+  adiarEvento(id: number): Observable<Evento>{
+    const url = `${this.baseUrl}/adiar/${id};`
+    return this.httClient.put<Evento>(url, null);
+  }
+
+  cancelarEvento(id: number): Observable<Evento>{
+    const url = `${this.baseUrl}/${id}`
+    return this.httClient.delete<Evento>(url);
   }
 
 }
