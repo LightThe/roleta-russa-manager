@@ -8,5 +8,5 @@ export class Evento{
     public valor : string;
     public motivo : Select;
     public situacao : Select;
-    public usuarios : Select[];
+    public usuario : Select[];
 }

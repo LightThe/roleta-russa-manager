@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { UsuarioModel } from 'src/app/models/usuario.model';
 import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
+import { Evento } from '../../models/evento.model';
 
 @Component({
   selector: 'app-evento-create',
@@ -11,15 +13,29 @@ export class EventoCreateComponent implements OnInit {
 
   constructor() { }
 
-  usuariosAtivos: UsuarioListagem[];
-  usuariosEvento: UsuarioListagem[];
+  usuariosAtivos: UsuarioListagem[] = [];
+  usuariosEvento: UsuarioListagem[] = [];
 
+  usuarioTeste: UsuarioModel = {
+    id: 1,
+    nome: "John Doe",
+    cpf: "52698701005",
+    dataNascimento: new Date(1994, 10, 10),
+    email: "john.doe@mail.com",
+    telefone: "111111111",
+    status: true,
+    cargo:{
+      value:1
+    }
+  }
   form: FormGroup;
   formBuilder: FormBuilder = new FormBuilder;
+  dadosEvento: Evento;
 
   ngOnInit(): void {
     this.criarFormulario();
     //Chamada ao usuario Service
+    this.usuariosAtivos.push(this.usuarioTeste);
   }
 
   criarFormulario(): void {
@@ -36,6 +52,7 @@ export class EventoCreateComponent implements OnInit {
   }
 
   criarEvento(): void{
+    this.dadosEvento = this.form.getRawValue();
     console.log(this.form.getRawValue());
   }
 

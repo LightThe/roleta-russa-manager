@@ -1,6 +1,6 @@
 <div class="ui-g">
 
-<p-card class="ui-sm-12 ui-md-6 ui-lg-6" header="Eventos">
+<p-card class="ui-sm-12 ui-md-6 ui-lg-6" header="Próximos Eventos">
     <div class="timeline">
         <div class="entry" *ngFor="let evento of eventos">
             <div class="title">
@@ -15,7 +15,21 @@
 </p-card>
 
 <p-card class="ui-sm-12 ui-md-6 ui-lg-6" header="Buscar Evento">
-    <p-button label="Este botão" (onClick)="filtrar('Lanche')"></p-button>
+    Insira um ou mais dos parâmetros abaixo e clique no botão para realizar a busca. <br/>
+    <form [formGroup]="buscaForm">
+        <label>Nome</label>  <br/>
+        <input pInputText type="text" formControlName="nome" />  <br/><br/>
+        <label>Data</label>  <br/>
+        <p-calendar formControlName="data" showButtonBar="true" [locale]="br"> </p-calendar> <br/><br/>
+        <label>Motivo</label>  <br/>
+        <input pInputText type="text" formControlName="motivo" />  <br/><br/>
+        <label>Situação</label>  <br/>
+        <input pInputText type="text" formControlName="situacao" />  <br/><br/>
+        <label>Nome de Usuário</label>  <br/>
+        <input pInputText type="text" formControlName="usuario" />  <br/><br/>
+    </form>
+    <br />
+    <p-button icon="pi pi-search" label="Buscar" (onClick)="filtrar()"></p-button>
 </p-card>
 
 </div>
@@ -33,10 +47,15 @@
         </p-card>
         <p-card header="Patrocinadores" class="ui-sm-6 ui-md-6 ui-lg-6">
             <ul>
-                <li *ngFor="let usuario of eventoCompleto.usuarios">
+                <li *ngFor="let usuario of eventoCompleto.usuario">
                     {{usuario.label}}
                 </li>
             </ul>
         </p-card>
     </div>
+    <p-footer>
+        <p-button label="Trocar com outro evento"></p-button>
+        <p-button label="Adiar"></p-button>
+        <p-button label="Cancelar"></p-button>
+    </p-footer>
 </p-dialog>
