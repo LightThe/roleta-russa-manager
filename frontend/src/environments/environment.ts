@@ -7,7 +7,7 @@ export const environment = {
     production: false,
     apiUrl: '/api',
     auth: {
-        baseUrl: '',
+        baseUrl: 'http://localhost:8080',
         loginUrl: '/api/sso/login',
         logoutUrl: '/api/logout',
         detailsUrl: '/api/user/details',

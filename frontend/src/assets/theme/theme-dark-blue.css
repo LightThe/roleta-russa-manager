@@ -30101,6 +30101,7 @@ body .ui-splitbutton .ui-menu {
 }
 body .ui-fluid .ui-splitbutton .ui-button:first-child {
   width: calc(100% - 2em);
+
 }
 body p-checkbox.ng-dirty.ng-invalid .ui-chkbox-box.ui-state-active {
   border-color: #e62a10;
