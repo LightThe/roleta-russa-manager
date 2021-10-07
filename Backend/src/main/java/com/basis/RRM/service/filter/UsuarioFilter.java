@@ -2,6 +2,8 @@ package com.basis.RRM.service.filter;
 
 import com.basis.RRM.dominio.Usuario;
 import com.basis.RRM.dominio.Usuario_;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -11,7 +13,8 @@ import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Getter
+@Setter
 public class UsuarioFilter implements EntityFilter<Usuario> {
 
     private String nome;

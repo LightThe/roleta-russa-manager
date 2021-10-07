@@ -2,6 +2,8 @@ package com.basis.RRM.service.filter;
 
 import com.basis.RRM.dominio.Evento;
 import com.basis.RRM.dominio.Evento_;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
@@ -12,7 +14,8 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import java.util.List;
 
-
+@Getter
+@Setter
 public class EventoFilter implements EntityFilter<Evento> {
     private String nome;
     private LocalDate data;
