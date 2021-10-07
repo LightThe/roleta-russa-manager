@@ -1,5 +1,4 @@
 
-
 h2{
     text-align: center;
     color: #5080CE;
@@ -67,11 +66,9 @@ td{
 	border: 0 none;
 	border-radius: 1px;
 	cursor: pointer;
-	
 }
 #msform p-button.action-button button:hover , #msform p-button.action-button button:focus {
 	box-shadow: 0 0 0 2px white, 0 0 0 3px #27AE60;
-	
 }
 
 .fs-title {

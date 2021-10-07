@@ -30,8 +30,8 @@
     </p-card>
     <p-card class="ui-sm-12 ui-md-12 ui-lg-1">
         <div>
-            <p-button class="ui-fluid" label="Visualizar" (click)="mostrar()" [disabled]="!(usuarioSelecionado)">
-            </p-button>
+            <p-button class="ui-fluid" label="Visualizar" (click)="mostrar()" [disabled]="!(usuarioSelecionado)"></p-button>
+            <p-button class="ui-fluid" label="Desativar Usuario" (click)="inativarUsuario()" [disabled]="!(usuarioSelecionado)"></p-button>
            
         </div>
     </p-card>
@@ -47,19 +47,19 @@
             CPF <i class="pi pi-id-card"></i>
             <input type="text" formControlName="cpf" value="form.cpf" />
             DATA DE NASCIMENTO <i class="pi pi-user-plus"></i>
-            <input type="text" formControlName="dataNascimento" value="form.data" />
+            <p-card> <p-calendar dateFormat="dd/mm/yy" formControlName="dataNascimento"></p-calendar></p-card>
             E-MAIL <i class="pi pi-envelope"></i>
             <input type="text" formControlName="email" value="form.email" />
             TELEFONE <i class="pi pi-phone"></i>
             <input type="text" formControlName="telefone" value="form.telefone" />
             STATUS <i class="pi pi-check-circle"></i>
-            <input type="text" formControlName="status" [ngModel]="usuarioCompleto.status|usuarioStatusPipe" />
+            <input type="text" formControlName="status" />
             <br><br>
             CARGO <i class="pi pi-users"></i>
             <br><br>
             <p-dropdown [options]="cargos" formControlName="cargo" [disabled]="form.disabled"></p-dropdown>
             <br><br><br>
-                <p-card> <p-calendar formControlName="dataNascimento"></p-calendar></p-card>
+                
             <br><br><br>
             
 

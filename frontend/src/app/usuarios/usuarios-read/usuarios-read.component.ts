@@ -7,7 +7,10 @@ import { UsuarioModel } from 'src/app/models/usuario.model';
 import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
 import { CargoService } from 'src/app/service/cargo.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
-
+import * as moment from 'moment';
+import { DataPipe } from 'src/app/pipe/data.pipe';
+import { UsuarioStatusPipe } from 'src/app/pipe/status.pipe';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios-read',
@@ -27,12 +30,16 @@ export class UsuariosReadComponent implements OnInit {
   form: FormGroup;
   formBuilder: FormBuilder = new FormBuilder;
   cargos: SelectItem[] = [];
+  ativadorDialog: boolean;
+  habilitarSalvar: boolean;
+
+  dataCalendario: string;
 
 
 
 
-
-  constructor(private usuarioService: UsuarioService, private cargoService: CargoService, private router: Router) { }
+  constructor(private usuarioService: UsuarioService, private cargoService: CargoService, private router: Router,
+     private statusPipe: UsuarioStatusPipe) { }
 
   ngOnInit() {
     this.inicializarListagem();
@@ -56,7 +63,10 @@ export class UsuariosReadComponent implements OnInit {
     this.criarFormulario();
   }
 
-  ativadorDialog: boolean;
+  gerarListaDeCargos(): void {
+    this.cargoService.buscarTodos().subscribe((element: SelectItem[]) => this.cargos = [{ label: 'Selecione o cargo', value: null } as SelectItem].concat(element))
+  }
+
 
   exibirDialog(): void {
     this.ativadorDialog = true;
@@ -82,10 +92,11 @@ export class UsuariosReadComponent implements OnInit {
     this.form.get('id').setValue(this.usuarioCompleto.id);
     this.form.get('nome').setValue(this.usuarioCompleto.nome);
     this.form.get('cpf').setValue(this.usuarioCompleto.cpf);
-    this.form.get('dataNascimento').setValue(this.usuarioCompleto.dataNascimento);
+    this.dataCalendario = this.usuarioCompleto.dataNascimento.toString();
+    this.form.get('dataNascimento').setValue(this.converterData(this.usuarioCompleto.dataNascimento, 1));
     this.form.get('email').setValue(this.usuarioCompleto.email);
     this.form.get('telefone').setValue(this.usuarioCompleto.telefone);
-    this.form.get('status').setValue(this.usuarioCompleto.status);
+    this.form.get('status').setValue(this.statusPipe.transform(this.usuarioCompleto.status));
     this.form.get('cargo').setValue(this.usuarioCompleto.cargo.value);
 
     this.bloquearCampos();
@@ -104,30 +115,43 @@ export class UsuariosReadComponent implements OnInit {
   }
 
   editarUsuario(): void {
+
+    console.log(this.form)
     let usuario: UsuarioModel = this.form.getRawValue();
     usuario.status = this.usuarioCompleto.status;
     usuario.cargo = { value: this.form.get('cargo').value };
+
+    // let data: moment.Moment = moment.utc(this.form.value.dataNascimento).local();
+    // usuario.dataNascimento = data.format('YYYY-MM-DD');
+
     this.usuarioService.editarUsuario(usuario).subscribe(() => this.inicializarListagem());
     this.ativadorDialog = false;
+
 
   }
 
 
   inativarUsuario(): void {
-    this.usuarioService.inativarUsuario(this.usuarioSelecionado.id).subscribe(() => {
-
-    });
+    this.usuarioService.inativarUsuario(this.usuarioSelecionado.id).subscribe(() => this.inicializarListagem());
 
   }
 
 
+ converterData(dataConv: Date, type: number): Date{
+    if(type = 1){
+      let data: moment.Moment = moment.utc(dataConv).local();
+      return new Date(data.format('DD/MM/YYYY'));
+      
+    }
 
-  gerarListaDeCargos(): void {
-    this.cargoService.buscarTodos().subscribe((element: SelectItem[]) => this.cargos = [{ label: 'Selecione o cargo', value: null } as SelectItem].concat(element))
-  }
+    if(type = 2){
+      let data: moment.Moment = moment.utc(dataConv).local();
+      return new Date(data.format('YYYY-MM-DD'));
+    }
+ }
 
 
-  habilitarSalvar: boolean;
+
 
 
 }

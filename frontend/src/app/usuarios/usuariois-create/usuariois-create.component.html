@@ -1,0 +1,28 @@
+<form id="msform" [formGroup]="form">
+    <fieldset>
+        <h2 class="fs-title">USUARIO</h2>
+        <h3 class="fs-subtitle">Informações</h3>
+        NOME <i class="pi pi-user"></i>
+        <input type="text" formControlName="nome" value="form.nome" />
+        CPF <i class="pi pi-id-card"></i>
+        <input type="text" formControlName="cpf" value="form.cpf" />
+        DATA DE NASCIMENTO <i class="pi pi-user-plus"></i>
+        <p-card> <p-calendar formControlName="dataNascimento"></p-calendar></p-card>
+        E-MAIL <i class="pi pi-envelope"></i>
+        <input type="text" formControlName="email" value="form.email" />
+        TELEFONE <i class="pi pi-phone"></i>
+        <input type="text" formControlName="telefone" value="form.telefone" />
+        <br><br>
+        CARGO <i class="pi pi-users"></i>
+        <br><br>
+        <p-dropdown [options]="cargos" formControlName="cargo"></p-dropdown>
+        <br><br><br>
+            
+        <br><br><br>
+        
+
+        <p-button [disabled]="habilitarSalvar" (click)="editarUsuario()" label="Salvar" class="action-button">
+        </p-button>
+
+    </fieldset>
+</form>

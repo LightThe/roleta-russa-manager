@@ -1,5 +1,6 @@
 package com.basis.RRM.service.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
@@ -21,6 +22,7 @@ public class UsuarioDTO {
     private String cpf;
     @Past
     @NotNull
+//    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate dataNascimento;
     @Email(message = "E-mail deve ser um endereço válido")
     private String  email;

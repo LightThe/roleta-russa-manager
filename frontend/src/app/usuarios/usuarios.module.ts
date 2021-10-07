@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { UsuariosRoutingModule } from './usuarios-routing.module';
 import { UsuariosReadComponent } from './usuarios-read/usuarios-read.component';
 import { SharedModule } from '../shared/shared.module';
+import { UsuarioisCreateComponent } from './usuariois-create/usuariois-create.component';
 
 
 
 @NgModule({
-  declarations: [UsuariosReadComponent],
+  declarations: [UsuariosReadComponent, UsuarioisCreateComponent],
   imports: [
     CommonModule,
     UsuariosRoutingModule,
