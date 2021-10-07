@@ -20,6 +20,7 @@ public class UsuarioFilter implements EntityFilter<Usuario> {
     private String nome;
     private String cargo;
     private String cpf;
+    private Boolean status;
 
     @Override
     public Specification<Usuario> filtrar(){
@@ -40,6 +41,9 @@ public class UsuarioFilter implements EntityFilter<Usuario> {
 
         if(cpf!=null){
             predicates.add(cb.equal(root.get(Usuario_.cpf), cpf));
+        }
+        if (status!=null){
+            predicates.add(cb.equal(root.get(Usuario_.status), status));
         }
 
         return predicates;
