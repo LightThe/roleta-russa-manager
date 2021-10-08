@@ -8,14 +8,13 @@ import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
 import { CargoService } from 'src/app/service/cargo.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import * as moment from 'moment';
-import { DataPipe } from 'src/app/pipe/data.pipe';
 import { UsuarioStatusPipe } from 'src/app/pipe/status.pipe';
 import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios-read',
   templateUrl: './usuarios-read.component.html',
-  styleUrls: ['./usuarios-read.component.css']
+  styleUrls: ['./usuarios-read.component.scss']
 })
 export class UsuariosReadComponent implements OnInit {
 
@@ -47,8 +46,9 @@ export class UsuariosReadComponent implements OnInit {
 
   mostrar(): void {
     this.usuarioService.mostrarPoriD(this.usuarioSelecionado.id).subscribe(element => {
-      this.gerarListaDeCargos();
       this.usuarioCompleto = element;
+      this.gerarListaDeCargos();
+      console.log(this.usuarioCompleto);
       this.exibirDialog();
       this.preencherFormulario();
 
@@ -59,7 +59,7 @@ export class UsuariosReadComponent implements OnInit {
 
 
   inicializarListagem(): void {
-    this.usuarioService. buscarUsuariosAtivos().subscribe(element => this.usuarios = element);
+    this.usuarioService. buscarUsuariosPorStatus(true).subscribe(element => this.usuarios = element);
     this.criarFormulario();
   }
 
@@ -120,6 +120,8 @@ export class UsuariosReadComponent implements OnInit {
     let usuario: UsuarioModel = this.form.getRawValue();
     usuario.status = this.usuarioCompleto.status;
     usuario.cargo = { value: this.form.get('cargo').value };
+    usuario.dataNascimento = this.converterData(this.form.value.dataNascimento, 2);
+    console.log(usuario.dataNascimento)
 
     // let data: moment.Moment = moment.utc(this.form.value.dataNascimento).local();
     // usuario.dataNascimento = data.format('YYYY-MM-DD');
@@ -137,21 +139,23 @@ export class UsuariosReadComponent implements OnInit {
   }
 
 
- converterData(dataConv: Date, type: number): Date{
-    if(type = 1){
+ converterData(dataConv: string, type: number): string{
+    if(type == 1){
       let data: moment.Moment = moment.utc(dataConv).local();
-      return new Date(data.format('DD/MM/YYYY'));
+     return data.format('DD/MM/YYYY');
       
     }
-
-    if(type = 2){
-      let data: moment.Moment = moment.utc(dataConv).local();
-      return new Date(data.format('YYYY-MM-DD'));
+    if(type == 2){}
+    let data: moment.Moment = moment.utc(dataConv).local();
+    console.log(dataConv);
+    return data.format('YYYY/MM/DD');
     }
+
+
  }
 
 
 
 
 
-}
+

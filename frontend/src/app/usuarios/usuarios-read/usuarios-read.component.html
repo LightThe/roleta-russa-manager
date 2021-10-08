@@ -29,7 +29,7 @@
         </p-table>
     </p-card>
     <p-card class="ui-sm-12 ui-md-12 ui-lg-1">
-        <div>
+        <div class="botoes">
             <p-button class="ui-fluid" label="Visualizar" (click)="mostrar()" [disabled]="!(usuarioSelecionado)"></p-button>
             <p-button class="ui-fluid" label="Desativar Usuario" (click)="inativarUsuario()" [disabled]="!(usuarioSelecionado)"></p-button>
            
@@ -38,36 +38,46 @@
 </div>
 
 <p-dialog draggable="" [(visible)]="ativadorDialog" *ngIf="ativadorDialog">
-    <form id="msform" [formGroup]="form">
-        <fieldset>
-            <h2 class="fs-title">USUARIO</h2>
-            <h3 class="fs-subtitle">Informações</h3>
-            NOME <i class="pi pi-user"></i>
-            <input type="text" formControlName="nome" value="form.nome" />
-            CPF <i class="pi pi-id-card"></i>
-            <input type="text" formControlName="cpf" value="form.cpf" />
-            DATA DE NASCIMENTO <i class="pi pi-user-plus"></i>
-            <p-card> <p-calendar dateFormat="dd/mm/yy" formControlName="dataNascimento"></p-calendar></p-card>
-            E-MAIL <i class="pi pi-envelope"></i>
-            <input type="text" formControlName="email" value="form.email" />
-            TELEFONE <i class="pi pi-phone"></i>
-            <input type="text" formControlName="telefone" value="form.telefone" />
-            STATUS <i class="pi pi-check-circle"></i>
-            <input type="text" formControlName="status" />
-            <br><br>
-            CARGO <i class="pi pi-users"></i>
-            <br><br>
-            <p-dropdown [options]="cargos" formControlName="cargo" [disabled]="form.disabled"></p-dropdown>
-            <br><br><br>
-                
-            <br><br><br>
-            
 
-            <p-button (click)="habilitarEdicao()" label="Editar" class="action-button"></p-button>
-            <p-button [disabled]="habilitarSalvar" (click)="editarUsuario()" label="Salvar" class="action-button">
-            </p-button>
-
-        </fieldset>
-    </form>
+        <form id="msform" [formGroup]="form">
+            <p-panel class="ui-fluid">
+                <div class="p-field">
+                    <br>
+                    <h2 class="fs-title">USUARIO</h2>
+                    <h3 class="fs-subtitle">Informações</h3>
+                    NOME <i class="pi pi-user"></i>
+                    <input pInputText type="text" formControlName="nome" value="form.nome" />
+                </div>
+                <div class="p-field">
+                    CPF <i class="pi pi-id-card"></i>
+                    <p-inputMask class="cpf" type="text" mask="999.999.999-99" formControlName="cpf" value="form.cpf"></p-inputMask>
+                </div>
+                <div class="p-field">
+                    DATA DE NASCIMENTO <i class="pi pi-user-plus"></i>
+                    <p-calendar class="formInput" formControlName="dataNascimento"></p-calendar>
+                </div>
+                <div class="p-field">
+                    E-MAIL <i class="pi pi-envelope"></i>
+                    <input pInputText type="text" formControlName="email" value="form.email" />
+                </div>
+                <div class="p-field">
+                    TELEFONE <i class="pi pi-phone"></i>
+                    <p-inputMask pInputText type="text" mask="(99)9 9999-9999" formControlName="telefone" value="form.telefone"></p-inputMask>
+                </div>
+                <div class="p-field">
+                    CARGO <i class="pi pi-users"></i>
+                    <p-dropdown class="p-dropdown-label" [options]="cargos" formControlName="cargo"></p-dropdown>
+                    <br><br><br>
+                </div>
+            </p-panel>
+    
+            <div class="botoesDialog">
+                <p-button (click)="habilitarEdicao()" label="Editar" class="action-button"></p-button>
+                <p-button [disabled]="habilitarSalvar" (click)="editarUsuario()" label="Salvar" class="action-button">
+                </p-button>
+            </div>
+    
+    
+        </form>
 
 </p-dialog>

@@ -4,7 +4,7 @@ export class UsuarioModel{
     public id : number;
     public nome : string;
     public cpf : string;
-    public dataNascimento : Date;
+    public dataNascimento : string;
     public email : string;
     public telefone : string;
     public status : boolean;

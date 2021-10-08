@@ -29,25 +29,25 @@ export class UsuarioService {
         return this.httClient.get<Select[]>(url);
     }
 
-    buscarUsuariosAtivos(): Observable<UsuarioListagem[]> {
-        const url = `${this.baseUrl}/filtro?status=true`
+    buscarUsuariosPorStatus(status: boolean): Observable<UsuarioListagem[]> {
+        const url = `${this.baseUrl}/filtro?status=${status}`
         return this.httClient.get<UsuarioListagem[]>(url);
 
     }
+
 
     mostrarPoriD(id: number): Observable<UsuarioModel>{
         const url = `${this.baseUrl}/${id}`;
         return this.httClient.get<UsuarioModel>(url);
     }
 
-    salvarUsuario(usuario: UsuarioModel): Observable<UsuarioModel>{
+    criarUsuario(usuario: UsuarioModel): Observable<UsuarioModel>{
         const url = `${this.baseUrl}`;
         return this.httClient.post<UsuarioModel>(url, usuario);
     }
 
     editarUsuario(usuario: UsuarioModel): Observable<UsuarioModel>{
         const url = `${this.baseUrl}`;
-        console.log(usuario);
         return this.httClient.put<UsuarioModel>(url, usuario)
     }
 
