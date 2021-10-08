@@ -6,12 +6,11 @@
             <label>Nome </label>
             <input type="text" formControlName="nome" value="form.nome" pInputText /> <br />
             <label>Data </label>
-            <p-calendar formControlName="dataEvento"></p-calendar> <br />
-            <label>Valor </label>
+            <p-calendar formControlName="dataEvento" [minDate]="minDateValue"></p-calendar> <br />
+            <label>Valor(R$) </label>
             <input type="text" formControlName="valor" pInputText /> <br />
             <label>Motivo </label>
-            <input type="text" formControlName="motivo" pInputText /> <br />
-            <!-- <p-dropdown [options]="cargos" formControlNname="cargo" [disabled]="form.disabled"></p-dropdown> -->
+            <p-dropdown [options]="motivos" formControlName="motivo" placeholder="-- Selecione --"></p-dropdown>
         </fieldset>
       </form>
     </p-panel>
@@ -19,7 +18,7 @@
       <p-pickList [responsive]=true [source]="usuariosAtivos" [target]="usuariosEvento" sourceHeader="Usuários Ativos" targetHeader="Usuários no Evento">
         <ng-template let-usuario pTemplate="item">
             <div class="ui-helper-clearfix">
-                <div>{{usuario.nome}}</div>
+                <div>{{usuario.label}}</div>
             </div>
         </ng-template>
       </p-pickList>

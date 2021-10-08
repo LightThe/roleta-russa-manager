@@ -1,0 +1,9 @@
+<p-card header="Novo motivo">
+  <form [formGroup]="motivoForm">
+    Nome do motivo:
+    <input pInputText formControlName="motivo" /> <br />
+    Descrição:
+    <input pInputText formControlName="descricao" /> <br />
+  </form>
+  <p-button label="Criar Motivo" (onClick)="criaMotivo()"></p-button>
+</p-card>

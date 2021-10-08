@@ -47,7 +47,6 @@ export class UsuarioService {
 
     editarUsuario(usuario: UsuarioModel): Observable<UsuarioModel>{
         const url = `${this.baseUrl}`;
-        console.log(usuario);
         return this.httClient.put<UsuarioModel>(url, usuario)
     }
 

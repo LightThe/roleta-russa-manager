@@ -1,41 +1,37 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Select } from 'src/app/models/select.model';
 import { UsuarioModel } from 'src/app/models/usuario.model';
 import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
+import { MotivoService } from 'src/app/service/motivo.service';
+import { UsuarioService } from 'src/app/service/usuario.service';
 import { Evento } from '../../models/evento.model';
+import { EventoService } from '../../services/evento.service';
 
 @Component({
   selector: 'app-evento-create',
   templateUrl: './evento-create.component.html',
-  styleUrls: ['./evento-create.component.css']
+  styleUrls: ['./evento-create.component.scss']
 })
 export class EventoCreateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private usuarioSvc: UsuarioService, private motivoSvc: MotivoService, private eventoSvc: EventoService) { }
 
-  usuariosAtivos: UsuarioListagem[] = [];
-  usuariosEvento: UsuarioListagem[] = [];
-
-  usuarioTeste: UsuarioModel = {
-    id: 1,
-    nome: "John Doe",
-    cpf: "52698701005",
-    dataNascimento: new Date(1994, 10, 10),
-    email: "john.doe@mail.com",
-    telefone: "111111111",
-    status: true,
-    cargo:{
-      value:1
-    }
-  }
+  usuariosAtivos: Select[] = [];
+  usuariosEvento: Select[] = [];
+  motivos: Select[];
+  minDateValue: Date;
   form: FormGroup;
   formBuilder: FormBuilder = new FormBuilder;
   dadosEvento: Evento;
 
   ngOnInit(): void {
     this.criarFormulario();
-    //Chamada ao usuario Service
-    this.usuariosAtivos.push(this.usuarioTeste);
+    this.minDateValue = new Date();
+    this.motivoSvc.buscarTodos().subscribe(element => this.motivos = element);
+    this.usuarioSvc.buscarUsuariosAtivos().subscribe(element => {
+      element.forEach(usuario => { this.usuariosAtivos.push({ value: usuario.id, label: usuario.nome }) });
+    });
   }
 
   criarFormulario(): void {
@@ -47,13 +43,17 @@ export class EventoCreateComponent implements OnInit {
     valor: [''],
     motivo: [''],
     situacao: [''],
-    usuarios: [''],
+    usuario: [''],
     })
   }
 
   criarEvento(): void{
     this.dadosEvento = this.form.getRawValue();
-    console.log(this.form.getRawValue());
+    this.dadosEvento.motivo = { value: this.form.get('motivo').value}
+    this.dadosEvento.situacao = { value: 1 }
+    this.dadosEvento.usuario = this.usuariosEvento;
+    this.eventoSvc.criarEvento(this.dadosEvento).subscribe(()=> console.log("teste"));
+    console.log(this.dadosEvento);
   }
 
 }

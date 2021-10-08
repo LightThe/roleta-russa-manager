@@ -77,16 +77,19 @@ export class EventoReadComponent implements OnInit {
   trocar(id: number): void{
     this.eventoService.trocarEventos(id, this.eventoTroca.id).subscribe(() => {
       this.mostrarEvento = false
+      this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
     });
   }
   adiar(id: number): void{
     this.eventoService.adiarEvento(id).subscribe(() => {
       this.mostrarEvento = false
+      this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
     });
   }
   cancelar(id: number): void{
     this.eventoService.cancelarEvento(id).subscribe(() => {
       this.mostrarEvento = false
+      this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
     });
   }
 
