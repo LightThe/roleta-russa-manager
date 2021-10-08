@@ -6,7 +6,6 @@ import { UsuariosReadComponent } from './components/usuarios-read/usuarios-read.
 
 
 const routes: Routes = [
-  // {path:'', redirectTo:'listar', pathMatch: 'full' },
   {path: '', component: UsuariosReadComponent},
   {path: 'criar', component: UsuariosCreateComponent}
 ];

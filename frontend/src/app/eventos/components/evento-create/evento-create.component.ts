@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, MinLengthValidator, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Select } from 'src/app/models/select.model';
 import { MotivoService } from 'src/app/service/motivo.service';
 import { UsuarioService } from 'src/app/usuarios/service/usuario.service';
@@ -18,7 +19,8 @@ export class EventoCreateComponent implements OnInit {
     private usuarioSvc: UsuarioService,
     private motivoSvc: MotivoService,
     private eventoSvc: EventoService,
-    private messageSvc: MessageService
+    private messageSvc: MessageService,
+    private router: Router
   ) { }
 
   usuariosAtivos: Select[] = [];
@@ -66,5 +68,4 @@ export class EventoCreateComponent implements OnInit {
       this.messageSvc.add({severity:'error', summary:'Não foi possível criar', detail:'Selecione ao menos um patrocinador'});
     }
   }
-
 }

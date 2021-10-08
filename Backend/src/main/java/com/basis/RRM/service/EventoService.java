@@ -44,6 +44,9 @@ public class EventoService {
 
     public EventoDTO salvarEvento(EventoDTO dto){
         Evento evento = eventoMapper.toEntity(dto);
+        if (evento.getUsuario().toArray().length <= 0){
+            throw new RegraNegocioException("Nenhum usuario foi cadastrado no evento");
+        }
         if (eventoRepository.existsByDataEvento(evento.getDataEvento())){
             throw new RegraNegocioException("Já existe um evento marcado nessa data");
         }
@@ -108,7 +111,7 @@ public class EventoService {
             }
         }
         }
-    public Optional<Evento> buscarMotivosEmEventos(Motivo motivo){
+    public Optional<List<Evento>> buscarMotivosEmEventos(Motivo motivo){
         return eventoRepository.findByMotivo(motivo);
     }
 

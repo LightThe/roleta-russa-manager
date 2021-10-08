@@ -13,6 +13,12 @@ export class MotivoService {
 
   constructor(private httpClient: HttpClient) { }
 
+  listarMotivos(): Observable<Motivo[]>{
+    const url = `${this.baseUrl}`
+    return this.httpClient.get<Motivo[]>(url)
+  }
+
+
   buscarTodos(): Observable<Select[]>{
     const url: string = `${this.baseUrl}/select`;
     return this.httpClient.get<Select[]>(url);
@@ -21,5 +27,10 @@ export class MotivoService {
   criarMotivo(motivo: Motivo): Observable<Motivo> {
     const url = this.baseUrl;
     return this.httpClient.post<Motivo>(url, motivo);
+  }
+
+  deletarMotivo(id: number): Observable<void>{
+    const url = `${this.baseUrl}/${id}`;
+    return this.httpClient.delete<void>(url);
   }
 }
