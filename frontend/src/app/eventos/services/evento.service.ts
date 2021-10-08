@@ -46,6 +46,7 @@ export class EventoService {
 
   trocarEventos(idPri: number, idSec: number): Observable<Evento>{
     const url = `${this.baseUrl}/trocar/${idPri}/${idSec}`;
+    console.log("tentou");
     return this.httClient.put<Evento>(url, null);
   }
 

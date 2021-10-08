@@ -3,6 +3,7 @@ import { Evento } from '../../models/evento.model';
 import { EventoListagem } from '../../models/eventoListagem.model';
 import { EventoService } from '../../services/evento.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Select } from 'src/app/models/select.model';
 
 @Component({
   selector: 'app-evento-read',
@@ -12,12 +13,11 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 export class EventoReadComponent implements OnInit {
 
   eventos: EventoListagem[] = [];
-  eventosFiltrado: EventoListagem[] = [];
-  value: Date;
   eventoCompleto: Evento;
-  listaEventoSelecionado: EventoListagem[];
+  listaSemEventoSelecionado: EventoListagem[] = [];
+  eventoTroca: EventoListagem;
   mostrarEvento: boolean = false;
-  eventonovo: EventoListagem;
+  
   
   constructor(private eventoService: EventoService) { }
 
@@ -28,7 +28,7 @@ export class EventoReadComponent implements OnInit {
 
   ngOnInit(): void {
     this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
-    this.criarForm();
+    this.criarForms();
     this.localizacaoCalendario();
   }
 
@@ -47,7 +47,7 @@ export class EventoReadComponent implements OnInit {
     };
   }
 
-  criarForm(): void{
+  criarForms(): void{
     this.buscaForm = this.formBuilder.group({
       nome: [''],
       data: [''],
@@ -60,8 +60,9 @@ export class EventoReadComponent implements OnInit {
   mostrar(id: number): void{
     this.eventoService.mostrarPorId(id).subscribe(element => {
       this.eventoCompleto = element;
+      this.listaSemEventoSelecionado = this.eventos.filter(evento => evento.id != id);
+      this.eventoTroca = undefined;
       this.mostrarEvento = true;
-      console.log(this.eventoCompleto.usuario);
     });
   }
 
@@ -74,14 +75,19 @@ export class EventoReadComponent implements OnInit {
   }
 
   trocar(id: number): void{
-    // 
-    this.eventoService.trocarEventos(id, null);
+    this.eventoService.trocarEventos(id, this.eventoTroca.id).subscribe(() => {
+      this.mostrarEvento = false
+    });
   }
   adiar(id: number): void{
-    this.eventoService.adiarEvento(id);
+    this.eventoService.adiarEvento(id).subscribe(() => {
+      this.mostrarEvento = false
+    });
   }
   cancelar(id: number): void{
-    this.eventoService.cancelarEvento(id);
+    this.eventoService.cancelarEvento(id).subscribe(() => {
+      this.mostrarEvento = false
+    });
   }
 
 }
