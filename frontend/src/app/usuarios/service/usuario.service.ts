@@ -1,12 +1,10 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
-import { ObserveOnSubscriber } from "rxjs/internal/operators/observeOn";
 import { environment } from "src/environments/environment";
-import { Select } from "../models/select.model";
+import { Select } from "../../models/select.model";
 import { UsuarioModel } from "../models/usuario.model";
 import { UsuarioListagem } from "../models/usuarioListagem.model";
-import { Usuario } from "../usuario/usuario";
 
 
 

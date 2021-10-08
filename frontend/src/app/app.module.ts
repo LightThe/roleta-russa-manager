@@ -13,7 +13,7 @@ import { PageNotificationModule, BreadcrumbModule, MenuModule, ErrorStackModule 
 import { ErrorModule, SecurityModule, VersionTagModule } from '@nuvem/angular-base';
 import { DiarioErrosComponent } from './components/diario-erros/diario-erros.component';
 import { BlockUIModule } from 'ng-block-ui';
-import { UsuarioService } from './service/usuario.service';
+import { ConfirmationService } from 'primeng';
 
 
 @NgModule({
@@ -43,7 +43,8 @@ import { UsuarioService } from './service/usuario.service';
         MenuModule
     ],
     providers: [
-        { provide: LocationStrategy, useClass: HashLocationStrategy }
+        { provide: LocationStrategy, useClass: HashLocationStrategy },
+        ConfirmationService
     ],
     bootstrap: [AppComponent]
 })

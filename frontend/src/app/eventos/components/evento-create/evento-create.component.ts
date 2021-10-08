@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select } from 'src/app/models/select.model';
-import { UsuarioModel } from 'src/app/models/usuario.model';
-import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
 import { MotivoService } from 'src/app/service/motivo.service';
-import { UsuarioService } from 'src/app/service/usuario.service';
+import { UsuarioService } from 'src/app/usuarios/service/usuario.service';
 import { Evento } from '../../models/evento.model';
 import { EventoService } from '../../services/evento.service';
+import {MessageService} from 'primeng/api';
 
 @Component({
   selector: 'app-evento-create',
@@ -16,7 +15,13 @@ import { EventoService } from '../../services/evento.service';
 })
 export class EventoCreateComponent implements OnInit {
 
-  constructor(private usuarioSvc: UsuarioService, private motivoSvc: MotivoService, private eventoSvc: EventoService, private router: Router) { }
+  constructor(
+    private usuarioSvc: UsuarioService,
+    private motivoSvc: MotivoService,
+    private eventoSvc: EventoService,
+    private messageSvc: MessageService,
+    private router: Router
+  ) { }
 
   usuariosAtivos: Select[] = [];
   usuariosEvento: Select[] = [];
@@ -38,11 +43,11 @@ export class EventoCreateComponent implements OnInit {
   criarFormulario(): void {
     this.form = this.formBuilder.group({
       id: [''],
-      nome: [''],
-      dataEvento: [''],
+      nome: ['', Validators.required, Validators.minLength(5)],
+      dataEvento: ['', Validators.required],
       justificativa: [''],
-      valor: [''],
-      motivo: [''],
+      valor: ['', Validators.required, Validators.minLength(2)],
+      motivo: ['', Validators.required],
       situacao: [''],
       usuario: [''],
     })
@@ -50,11 +55,17 @@ export class EventoCreateComponent implements OnInit {
 
   criarEvento(): void {
     this.dadosEvento = this.form.getRawValue();
-    this.dadosEvento.motivo = { value: this.form.get('motivo').value }
-    this.dadosEvento.situacao = { value: 1 }
-    this.dadosEvento.usuario = this.usuariosEvento;
-    this.eventoSvc.criarEvento(this.dadosEvento).subscribe(() => {
-      this.router.navigateByUrl('eventos/listar')
-    });
+    if (this.usuariosEvento.length > 0) {
+      this.dadosEvento.motivo = { value: this.form.get('motivo').value }
+      this.dadosEvento.situacao = { value: 1 }
+      this.dadosEvento.usuario = this.usuariosEvento;
+      this.eventoSvc.criarEvento(this.dadosEvento).subscribe(() => console.log("teste"));
+    }
+    else if(!this.form.valid){
+      this.messageSvc.add({severity: 'error', summary:'Não foi possível criar', detail:'Existem campos inválidos'});
+    }
+    else{
+      this.messageSvc.add({severity:'error', summary:'Não foi possível criar', detail:'Selecione ao menos um patrocinador'});
+    }
   }
 }

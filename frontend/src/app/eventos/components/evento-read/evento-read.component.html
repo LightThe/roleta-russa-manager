@@ -52,17 +52,17 @@
                 </li>
             </ul>
         </p-card>
-        <p-fieldset legend="Trocar data com outro evento" [toggleable]="true" [collapsed]="true">
+        <p-fieldset  legend="Trocar data com outro evento" [toggleable]="isEventoAtivo" [collapsed]="true">
                 <p-dropdown [options]="listaSemEventoSelecionado" [virtualScroll]="true" itemSize="3"
                     [(ngModel)]="eventoTroca" optionLabel="nome" placeholder="-- Selecione --">
                 </p-dropdown> <br />
                 <p-button label="Trocar com este evento" (onClick)="trocar(eventoCompleto.id)"></p-button>
         </p-fieldset>
     </div>
-    <p-footer>
+    <p-footer *ngIf="isEventoAtivo">
         <p-button label="Adiar em 1 semana" (onClick)="adiar(eventoCompleto.id)"></p-button>
         <p-button label="Cancelar o Evento" (onClick)="cancelar(eventoCompleto.id)"></p-button>
     </p-footer>
 </p-dialog>
 
-<!-- <p-confirmDialog header="Confirmation" icon="pi pi-exclamation-triangle"></p-confirmDialog> -->
+<p-confirmDialog position="bottom" header="Confirmar" icon="pi pi-exclamation-triangle"></p-confirmDialog>
