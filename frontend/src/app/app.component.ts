@@ -55,8 +55,11 @@ export class AppComponent implements AfterViewInit, OnDestroy, OnInit {
                 { label: 'Visualizar Usuarios', icon: 'person', routerLink: ['usuarios']},
                 { label: 'Adicionar Usuario', icon: 'person', routerLink: ['usuarios/criar']}
             ]},
-           
-
+            { label: 'Eventos', icon: 'today', items: [
+                {label: 'Listar Todos', routerLink: ['eventos/listar']},
+                {label: 'Novo Evento', routerLink: ['eventos/criar']},
+                {label: 'Criar Motivo', routerLink: ['eventos/motivo']}
+            ]}
         ];
     }
 

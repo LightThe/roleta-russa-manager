@@ -18,7 +18,7 @@ import java.util.List;
 @Setter
 public class EventoFilter implements EntityFilter<Evento> {
     private String nome;
-    private LocalDate data;
+    private String data;
     private String motivo;
     private String situacao;
     private String usuario;
@@ -31,13 +31,13 @@ public class EventoFilter implements EntityFilter<Evento> {
 
     private List<Predicate> getPredicates (Root<Evento>root, CriteriaQuery<?>cq, CriteriaBuilder cb){
         List<Predicate> predicates = new ArrayList<>();
-        cq.orderBy(cb.desc(root.get("id")));
+        cq.orderBy(cb.asc(root.get("dataEvento")));
 
         if (nome != null){
             predicates.add(cb.like(root.get(Evento_.nome), "%"+ nome + "%"));
         }
         if (data != null){
-            predicates.add(cb.equal(root.get(Evento_.dataEvento), data));
+            predicates.add(cb.equal(root.get(Evento_.dataEvento), LocalDate.parse(data)));
         }
         if (motivo != null){
             predicates.add(cb.like(root.join("motivo").get("motivo"),"%"+ motivo+"%"));

@@ -1,4 +1,4 @@
-import { Select } from "./select.model";
+import { Select } from "../../models/select.model";
 
 export class Evento{
     public id : number
@@ -8,5 +8,5 @@ export class Evento{
     public valor : string;
     public motivo : Select;
     public situacao : Select;
-    public usuarios : Select[];
+    public usuario : Select[];
 }
