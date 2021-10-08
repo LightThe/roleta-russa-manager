@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Select } from 'src/app/models/select.model';
 import { UsuarioModel } from 'src/app/models/usuario.model';
 import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
@@ -15,7 +16,7 @@ import { EventoService } from '../../services/evento.service';
 })
 export class EventoCreateComponent implements OnInit {
 
-  constructor(private usuarioSvc: UsuarioService, private motivoSvc: MotivoService, private eventoSvc: EventoService) { }
+  constructor(private usuarioSvc: UsuarioService, private motivoSvc: MotivoService, private eventoSvc: EventoService, private router: Router) { }
 
   usuariosAtivos: Select[] = [];
   usuariosEvento: Select[] = [];
@@ -29,31 +30,31 @@ export class EventoCreateComponent implements OnInit {
     this.criarFormulario();
     this.minDateValue = new Date();
     this.motivoSvc.buscarTodos().subscribe(element => this.motivos = element);
-    this.usuarioSvc.buscarUsuariosAtivos().subscribe(element => {
+    this.usuarioSvc.buscarUsuariosPorStatus(true).subscribe(element => {
       element.forEach(usuario => { this.usuariosAtivos.push({ value: usuario.id, label: usuario.nome }) });
     });
   }
 
   criarFormulario(): void {
     this.form = this.formBuilder.group({
-    id: [''],
-    nome: [''],
-    dataEvento: [''],
-    justificativa: [''],
-    valor: [''],
-    motivo: [''],
-    situacao: [''],
-    usuario: [''],
+      id: [''],
+      nome: [''],
+      dataEvento: [''],
+      justificativa: [''],
+      valor: [''],
+      motivo: [''],
+      situacao: [''],
+      usuario: [''],
     })
   }
 
-  criarEvento(): void{
+  criarEvento(): void {
     this.dadosEvento = this.form.getRawValue();
-    this.dadosEvento.motivo = { value: this.form.get('motivo').value}
+    this.dadosEvento.motivo = { value: this.form.get('motivo').value }
     this.dadosEvento.situacao = { value: 1 }
     this.dadosEvento.usuario = this.usuariosEvento;
-    this.eventoSvc.criarEvento(this.dadosEvento).subscribe(()=> console.log("teste"));
-    console.log(this.dadosEvento);
+    this.eventoSvc.criarEvento(this.dadosEvento).subscribe(() => {
+      this.router.navigateByUrl('eventos/listar')
+    });
   }
-
 }
