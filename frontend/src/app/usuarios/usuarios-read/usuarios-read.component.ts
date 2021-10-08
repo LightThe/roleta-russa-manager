@@ -8,14 +8,13 @@ import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
 import { CargoService } from 'src/app/service/cargo.service';
 import { UsuarioService } from 'src/app/service/usuario.service';
 import * as moment from 'moment';
-import { DataPipe } from 'src/app/pipe/data.pipe';
 import { UsuarioStatusPipe } from 'src/app/pipe/status.pipe';
 import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-usuarios-read',
   templateUrl: './usuarios-read.component.html',
-  styleUrls: ['./usuarios-read.component.css']
+  styleUrls: ['./usuarios-read.component.scss']
 })
 export class UsuariosReadComponent implements OnInit {
 
@@ -47,8 +46,11 @@ export class UsuariosReadComponent implements OnInit {
 
   mostrar(): void {
     this.usuarioService.mostrarPoriD(this.usuarioSelecionado.id).subscribe(element => {
-      this.gerarListaDeCargos();
       this.usuarioCompleto = element;
+      this.usuarioCompleto.dataNascimento = new Date(element.dataNascimento);
+      this.usuarioCompleto.dataNascimento.setHours(this.usuarioCompleto.dataNascimento.getHours()+6);
+      this.gerarListaDeCargos();
+      console.log(this.usuarioCompleto);
       this.exibirDialog();
       this.preencherFormulario();
 
@@ -59,7 +61,7 @@ export class UsuariosReadComponent implements OnInit {
 
 
   inicializarListagem(): void {
-    this.usuarioService. buscarUsuariosAtivos().subscribe(element => this.usuarios = element);
+    this.usuarioService. buscarUsuariosPorStatus(true).subscribe(element => this.usuarios = element);
     this.criarFormulario();
   }
 
@@ -93,7 +95,7 @@ export class UsuariosReadComponent implements OnInit {
     this.form.get('nome').setValue(this.usuarioCompleto.nome);
     this.form.get('cpf').setValue(this.usuarioCompleto.cpf);
     this.dataCalendario = this.usuarioCompleto.dataNascimento.toString();
-    this.form.get('dataNascimento').setValue(this.converterData(this.usuarioCompleto.dataNascimento, 1));
+    this.form.get('dataNascimento').setValue(this.usuarioCompleto.dataNascimento);
     this.form.get('email').setValue(this.usuarioCompleto.email);
     this.form.get('telefone').setValue(this.usuarioCompleto.telefone);
     this.form.get('status').setValue(this.statusPipe.transform(this.usuarioCompleto.status));
@@ -119,7 +121,8 @@ export class UsuariosReadComponent implements OnInit {
     console.log(this.form)
     let usuario: UsuarioModel = this.form.getRawValue();
     usuario.status = this.usuarioCompleto.status;
-    usuario.cargo = { value: this.form.get('cargo').value };
+    usuario.cargo = { value: this.form.get('cargo').value };;
+    console.log(usuario.dataNascimento)
 
     // let data: moment.Moment = moment.utc(this.form.value.dataNascimento).local();
     // usuario.dataNascimento = data.format('YYYY-MM-DD');
@@ -136,22 +139,6 @@ export class UsuariosReadComponent implements OnInit {
 
   }
 
-
- converterData(dataConv: Date, type: number): Date{
-    if(type = 1){
-      let data: moment.Moment = moment.utc(dataConv).local();
-      return new Date(data.format('DD/MM/YYYY'));
-      
-    }
-
-    if(type = 2){
-      let data: moment.Moment = moment.utc(dataConv).local();
-      return new Date(data.format('YYYY-MM-DD'));
-    }
- }
-
-
-
-
-
 }
+
+
