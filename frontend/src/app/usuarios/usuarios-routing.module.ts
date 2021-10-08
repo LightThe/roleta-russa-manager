@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { UsuarioisCreateComponent } from './usuariois-create/usuariois-create.component';
-import { UsuariosReadComponent } from './usuarios-read/usuarios-read.component';
+import { UsuariosCreateComponent } from './components/usuarios-create/usuarios-create.component';
+import { UsuariosReadComponent } from './components/usuarios-read/usuarios-read.component';
 
 
 
 const routes: Routes = [
   // {path:'', redirectTo:'listar', pathMatch: 'full' },
   {path: '', component: UsuariosReadComponent},
-  {path: 'criar', component: UsuarioisCreateComponent}
+  {path: 'criar', component: UsuariosCreateComponent}
 ];
 
 @NgModule({

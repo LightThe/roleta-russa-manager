@@ -2,8 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Evento } from '../../models/evento.model';
 import { EventoListagem } from '../../models/eventoListagem.model';
 import { EventoService } from '../../services/evento.service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Select } from 'src/app/models/select.model';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { ConfirmationService } from 'primeng/api';
 
 @Component({
   selector: 'app-evento-read',
@@ -17,9 +18,13 @@ export class EventoReadComponent implements OnInit {
   listaSemEventoSelecionado: EventoListagem[] = [];
   eventoTroca: EventoListagem;
   mostrarEvento: boolean = false;
-  
-  
-  constructor(private eventoService: EventoService) { }
+  isEventoAtivo: boolean = true;
+
+
+  constructor(
+    private eventoService: EventoService,
+    private confirmationService: ConfirmationService
+  ) { }
 
   buscaForm: FormGroup;
   formBuilder: FormBuilder = new FormBuilder();
@@ -37,9 +42,9 @@ export class EventoReadComponent implements OnInit {
       firstDayOfWeek: 0,
       dayNames: ["Domingo", "Segunda", "Terça", "Quarta", "Quinta", "Sexta", "Sábado"],
       dayNamesShort: ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sab"],
-      dayNamesMin: ["D","S","T","Q","Q","S","S"],
-      monthNames: [ "Janeiro","Fevereiro","Março","Abril","Maio","Junho","Julho","Agosto","Setembro","Outubro","Novembro","Dezembro" ],
-      monthNamesShort: [ "Jan", "Fev", "Mar", "Abr", "Mai", "Jun","Jul", "Ago", "Set", "Out", "Nov", "Dez" ],
+      dayNamesMin: ["D", "S", "T", "Q", "Q", "S", "S"],
+      monthNames: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"],
+      monthNamesShort: ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"],
       today: 'Hoje',
       clear: 'Limpar',
       dateFormat: 'dd/mm/yy',
@@ -47,7 +52,7 @@ export class EventoReadComponent implements OnInit {
     };
   }
 
-  criarForms(): void{
+  criarForms(): void {
     this.buscaForm = this.formBuilder.group({
       nome: [''],
       data: [''],
@@ -57,39 +62,56 @@ export class EventoReadComponent implements OnInit {
     })
   }
 
-  mostrar(id: number): void{
+  mostrar(id: number): void {
     this.eventoService.mostrarPorId(id).subscribe(element => {
       this.eventoCompleto = element;
       this.listaSemEventoSelecionado = this.eventos.filter(evento => evento.id != id);
+      this.isEventoAtivo = this.eventoCompleto.situacao.value == 1 ? true : false;
       this.eventoTroca = undefined;
       this.mostrarEvento = true;
     });
   }
 
-  filtrar(nome: string): void{
+  filtrar(): void {
     var dadosForm = this.buscaForm.getRawValue();
-    if(dadosForm.data != "" && dadosForm.data != null) {
+    if (dadosForm.data != "" && dadosForm.data != null) {
       dadosForm.data = this.buscaForm.get('data').value.toJSON().split('T')[0];
     }
     this.eventoService.filter(dadosForm).subscribe(element => this.eventos = element);
   }
 
-  trocar(id: number): void{
-    this.eventoService.trocarEventos(id, this.eventoTroca.id).subscribe(() => {
-      this.mostrarEvento = false
-      this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
+  trocar(id: number): void {
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja trocar entre os dois eventos?',
+      accept: () => {
+        this.eventoService.trocarEventos(id, this.eventoTroca.id).subscribe(() => {
+          this.mostrarEvento = false
+          this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
+        });
+      }
+    });
+
+  }
+  adiar(id: number): void {
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja adiar o evento?',
+      accept: () => {
+        this.eventoService.adiarEvento(id).subscribe(() => {
+          this.mostrarEvento = false
+          this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
+        });
+      }
     });
   }
-  adiar(id: number): void{
-    this.eventoService.adiarEvento(id).subscribe(() => {
-      this.mostrarEvento = false
-      this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
-    });
-  }
-  cancelar(id: number): void{
-    this.eventoService.cancelarEvento(id).subscribe(() => {
-      this.mostrarEvento = false
-      this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
+  cancelar(id: number): void {
+    this.confirmationService.confirm({
+      message: 'Tem certeza que deseja cancelar este evento?',
+      accept: () => {
+        this.eventoService.cancelarEvento(id).subscribe(() => {
+          this.mostrarEvento = false
+          this.eventoService.filter({ 'situacao': 'Em Espera' }).subscribe(element => this.eventos = element);
+        });
+      }
     });
   }
 

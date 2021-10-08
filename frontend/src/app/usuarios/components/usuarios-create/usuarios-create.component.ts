@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SelectItem } from 'primeng';
-import { UsuarioModel } from 'src/app/models/usuario.model';
-import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
+import { UsuarioModel } from 'src/app/usuarios/models/usuario.model';
+import { UsuarioListagem } from 'src/app/usuarios/models/usuarioListagem.model';
 import { CargoService } from 'src/app/service/cargo.service';
-import { UsuarioService } from 'src/app/service/usuario.service';
+import { UsuarioService } from 'src/app/usuarios/service/usuario.service';
 
 @Component({
-  selector: 'app-usuariois-create',
-  templateUrl: './usuariois-create.component.html',
-  styleUrls: ['./usuariois-create.component.scss']
+  selector: 'app-usuarios-create',
+  templateUrl: './usuarios-create.component.html',
+  styleUrls: ['./usuarios-create.component.scss']
 })
-export class UsuarioisCreateComponent implements OnInit {
+export class UsuariosCreateComponent implements OnInit {
 
   usuarios: UsuarioListagem[] = [];
   usuarioSelecionado: UsuarioListagem;
