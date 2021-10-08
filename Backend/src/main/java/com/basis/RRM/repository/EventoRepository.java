@@ -18,7 +18,7 @@ import java.util.Optional;
 public interface EventoRepository extends JpaRepository<Evento, Long>, JpaSpecificationExecutor<Evento> {
 
 
-    Optional<Evento> findByMotivo(Motivo motivo);
+    Optional<List<Evento>> findByMotivo(Motivo motivo);
     boolean existsByDataEvento(LocalDate dataEvento);
 
     @Query("SELECT obj from Evento obj ORDER BY obj.dataEvento")
