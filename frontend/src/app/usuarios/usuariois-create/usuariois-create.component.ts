@@ -1,21 +1,26 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { SelectItem } from 'primeng';
+import { UsuarioModel } from 'src/app/models/usuario.model';
+import { UsuarioListagem } from 'src/app/models/usuarioListagem.model';
 import { CargoService } from 'src/app/service/cargo.service';
+import { UsuarioService } from 'src/app/service/usuario.service';
 
 @Component({
   selector: 'app-usuariois-create',
   templateUrl: './usuariois-create.component.html',
-  styleUrls: ['./usuariois-create.component.css']
+  styleUrls: ['./usuariois-create.component.scss']
 })
 export class UsuarioisCreateComponent implements OnInit {
 
-  
+  usuarios: UsuarioListagem[] = [];
+  usuarioSelecionado: UsuarioListagem;
   form: FormGroup;
   formBuilder: FormBuilder = new FormBuilder;
   cargos: SelectItem[] = [];
-
-  constructor(private cargoService: CargoService ) {}
+  habilitador: boolean = false;
+  usuarioCriar: UsuarioModel;
+  constructor(private cargoService: CargoService, private usuarioService: UsuarioService) {}
 
   ngOnInit(): void {
     this.criarFormulario();
@@ -39,5 +44,25 @@ export class UsuarioisCreateComponent implements OnInit {
     this.cargoService.buscarTodos().subscribe((element: SelectItem[]) => this.cargos = [{ label: 'Selecione o cargo', value: null } as SelectItem].concat(element))
   }  
 
+  mostrarLista(): void{
+    this.usuarioService.buscarUsuariosPorStatus(false).subscribe(element => this.usuarios = element)
+    this.habilitador = true;
+  }
 
+  ativarUsuario(): void{
+    this.usuarioService.ativarUsuario(this.usuarioSelecionado.id).subscribe();
+    this.habilitador = false;
+  }
+
+  criarUsuario(): void{
+   this.usuarioCriar = this.form.getRawValue();
+   this.usuarioCriar.cargo = {value: this.form.get('cargo').value}
+   this.usuarioCriar.status = true;
+   console.log(this.usuarioCriar)
+   this.usuarioService.criarUsuario(this.usuarioCriar).subscribe((element) => {
+     this.usuarioCriar = element;
+    this.criarFormulario();
+    this.gerarListaDeCargos();
+    })
+  }
 }
