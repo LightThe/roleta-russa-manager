@@ -47,6 +47,8 @@ export class UsuariosReadComponent implements OnInit {
   mostrar(): void {
     this.usuarioService.mostrarPoriD(this.usuarioSelecionado.id).subscribe(element => {
       this.usuarioCompleto = element;
+      this.usuarioCompleto.dataNascimento = new Date(element.dataNascimento);
+      this.usuarioCompleto.dataNascimento.setHours(this.usuarioCompleto.dataNascimento.getHours()+6);
       this.gerarListaDeCargos();
       console.log(this.usuarioCompleto);
       this.exibirDialog();
@@ -93,7 +95,7 @@ export class UsuariosReadComponent implements OnInit {
     this.form.get('nome').setValue(this.usuarioCompleto.nome);
     this.form.get('cpf').setValue(this.usuarioCompleto.cpf);
     this.dataCalendario = this.usuarioCompleto.dataNascimento.toString();
-    this.form.get('dataNascimento').setValue(this.converterData(this.usuarioCompleto.dataNascimento, 1));
+    this.form.get('dataNascimento').setValue(this.usuarioCompleto.dataNascimento);
     this.form.get('email').setValue(this.usuarioCompleto.email);
     this.form.get('telefone').setValue(this.usuarioCompleto.telefone);
     this.form.get('status').setValue(this.statusPipe.transform(this.usuarioCompleto.status));
@@ -119,8 +121,7 @@ export class UsuariosReadComponent implements OnInit {
     console.log(this.form)
     let usuario: UsuarioModel = this.form.getRawValue();
     usuario.status = this.usuarioCompleto.status;
-    usuario.cargo = { value: this.form.get('cargo').value };
-    usuario.dataNascimento = this.converterData(this.form.value.dataNascimento, 2);
+    usuario.cargo = { value: this.form.get('cargo').value };;
     console.log(usuario.dataNascimento)
 
     // let data: moment.Moment = moment.utc(this.form.value.dataNascimento).local();
@@ -138,24 +139,6 @@ export class UsuariosReadComponent implements OnInit {
 
   }
 
-
- converterData(dataConv: string, type: number): string{
-    if(type == 1){
-      let data: moment.Moment = moment.utc(dataConv).local();
-     return data.format('DD/MM/YYYY');
-      
-    }
-    if(type == 2){}
-    let data: moment.Moment = moment.utc(dataConv).local();
-    console.log(dataConv);
-    return data.format('YYYY/MM/DD');
-    }
-
-
- }
-
-
-
-
+}
 
 

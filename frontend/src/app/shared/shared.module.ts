@@ -1,10 +1,12 @@
+import { DatePipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { UsuarioStatusPipe } from '../pipe/status.pipe';
 import { PRIMENG_IMPORTS } from './primeng-imports';
 
 @NgModule({
     declarations:[
-        UsuarioStatusPipe
+        UsuarioStatusPipe,
+
     
     ],
     imports: [
@@ -12,7 +14,8 @@ import { PRIMENG_IMPORTS } from './primeng-imports';
         
     ],
     providers: [
-        UsuarioStatusPipe
+        UsuarioStatusPipe,
+
     ],
     exports: [
         PRIMENG_IMPORTS,
