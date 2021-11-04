@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { UsuariosReadComponent } from './usuarios-read.component';
+import { EventoReadComponent } from './evento-read.component';
 
-describe('UsuariosReadComponent', () => {
-  let component: UsuariosReadComponent;
-  let fixture: ComponentFixture<UsuariosReadComponent>;
+describe('EventoReadComponent', () => {
+  let component: EventoReadComponent;
+  let fixture: ComponentFixture<EventoReadComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ UsuariosReadComponent ]
+      declarations: [ EventoReadComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UsuariosReadComponent);
+    fixture = TestBed.createComponent(EventoReadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

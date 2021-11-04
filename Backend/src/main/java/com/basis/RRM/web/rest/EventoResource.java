@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -38,7 +39,8 @@ public class EventoResource {
 
     @PostMapping
     public ResponseEntity<EventoDTO> salvarEvento(@Valid @RequestBody EventoDTO eventoDTO) {
-        return ResponseEntity.ok(eventoService.salvarEvento(eventoDTO));
+        EventoDTO eventoSalvo = eventoService.salvarEvento(eventoDTO);
+        return ResponseEntity.created(URI.create("api/evento/filtro?id="+eventoSalvo.getId())).body(eventoDTO);
     }
 
     @PutMapping
@@ -52,16 +54,15 @@ public class EventoResource {
     }
 
     @PutMapping("/trocar/{idPri}/{idSec}")
-    public ResponseEntity<Void> trocarDataDeEventos(@PathVariable("idPri")Long idPri,@PathVariable("idSec") Long idSec){
-        eventoService.trocarEventosDeData(idPri,idSec);
+    public ResponseEntity<Void> trocarDataDeEventos(@PathVariable("idPri")Long idPri,@PathVariable("idSec") Long idSec) {
+        eventoService.trocarEventosDeData(idPri, idSec);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> cancelarEvento(@PathVariable("id") Long id) {
         eventoService.cancelarEvento(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }

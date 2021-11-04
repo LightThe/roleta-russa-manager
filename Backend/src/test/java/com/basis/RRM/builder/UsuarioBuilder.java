@@ -26,7 +26,7 @@ public class UsuarioBuilder extends ConstrutorDeEntidade<Usuario> {
         usuario.setNome("Carolina Rocha Ribeiro");
         usuario.setCpf("79552875684");
         usuario.setDataNascimento(LocalDate.now().minusYears(25));
-        usuario.setEmail("CaRibeiro@yopmail.com");
+        usuario.setEmail(usuario.getCpf()+"@yopmail.com");
         Cargo cargo = new Cargo();
         cargo.setId(1L);
         usuario.setCargo(cargo);
@@ -56,10 +56,6 @@ public class UsuarioBuilder extends ConstrutorDeEntidade<Usuario> {
 
     public void deleteAll(){
         usuarioRepository.deleteAll();
-    }
-
-    public void getDtoById(){
-
     }
 
     public void disableUsuario(Long id){

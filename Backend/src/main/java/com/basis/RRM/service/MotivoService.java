@@ -5,8 +5,10 @@ import com.basis.RRM.dominio.Motivo;
 import com.basis.RRM.repository.EventoRepository;
 import com.basis.RRM.repository.MotivoRepository;
 import com.basis.RRM.service.dto.MotivoDTO;
+import com.basis.RRM.service.dto.SelectDTO;
 import com.basis.RRM.service.exception.RegraNegocioException;
 import com.basis.RRM.service.mapper.MotivoMapper;
+import com.basis.RRM.service.mapper.MotivoSelectmapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ public class MotivoService {
    private final MotivoRepository motivoRepository;
    private final EventoService eventoService;
    private final MotivoMapper motivoMapper;
-
+   private final MotivoSelectmapper motivoSelectmapper;
 
    public List<MotivoDTO> exibirTodosMotivos(){
        return motivoMapper.toDto(motivoRepository.findAll());
@@ -32,6 +34,9 @@ public class MotivoService {
        return motivoMapper.toDto(motivo);
    }
 
+    public List<SelectDTO> exibirMotivosEmSelect(){
+       return motivoSelectmapper.toDto(motivoRepository.findAll());
+    }
    public MotivoDTO salvarMotivo(MotivoDTO motivoDTO){
        Motivo motivo = motivoMapper.toEntity(motivoDTO);
        Motivo motivoSalvar = motivoRepository.save(motivo);
